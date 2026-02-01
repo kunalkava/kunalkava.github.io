@@ -393,3 +393,9 @@ a{color:inherit; text-decoration:none}
   opacity:1;
   transform: translateY(0);
 }
+.brand-gradient {
+  background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
