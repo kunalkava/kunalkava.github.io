@@ -421,3 +421,7 @@ a{color:inherit; text-decoration:none}
   background-clip: text;
   color: transparent;
 }
+.contact a.link .label{
+  color: rgba(233,237,246,.92);
+  font-weight: 700;
+}
