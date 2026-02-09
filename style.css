@@ -429,3 +429,10 @@ a{color:inherit; text-decoration:none}
   color: rgba(233,237,246,.92);
   font-weight: 700;
 }
+/* LinkedIn SVG sizing + crisp alignment */
+.contact a.link .li-icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+  flex: 0 0 auto;
+}
