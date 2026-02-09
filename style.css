@@ -346,9 +346,8 @@ a{color:inherit; text-decoration:none}
 .contact-chips{
   margin-top:12px;
   display:flex;
-  flex-wrap:wrap;
-  gap:10px;              /* consistent spacing */
-  align-items:center;
+  flex-direction: column;   /* 🔑 stack vertically */
+  gap:10px;                 /* consistent spacing */
 }
 
 /* allow non-link chip to look like link */
