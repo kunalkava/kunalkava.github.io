@@ -1,9 +1,70 @@
-<article class="card">
-  <div class="card-head">
-    <div>
-      <h3 class="card-title"><a href="/blog/ai-takeover-paradox.html">The AI Takeover Paradox: Who Buys the Robots' Products?</a></h3>
-      <div class="card-sub">Feb 2026 · My Takes</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kunal Kava | Blog</title>
+  <meta name="description" content="My takes on product, tech, and business." />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">Kunal Kava</div>
+      <nav class="nav-links">
+        <a href="../#projects">Projects</a>
+        <a href="../#experience">Experience</a>
+        <a href="../#skills">Skills</a>
+        <a href="../#contact">Contact</a>
+        <a href="./">Blog</a>
+      </nav>
     </div>
-  </div>
-  <p class="desc">If AI replaces every job, nobody has money. If nobody has money, who buys anything? The “AI wins” endgame doesn’t add up.</p>
-</article>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container reveal">
+        <h2>Blog</h2>
+        <p class="kicker">My takes. Short, opinionated, and evolving.</p>
+
+        <!-- Your existing article -->
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">
+                <a href="/blog/ai-takeover-paradox.html">
+                  The AI Takeover Paradox: Who Buys the Robots' Products?
+                </a>
+              </h3>
+              <div class="card-sub">Feb 2026 · My Takes</div>
+            </div>
+          </div>
+
+          <p class="desc">
+            If AI replaces every job, nobody has money. If nobody has money, who buys anything?
+            The “AI wins” endgame doesn’t add up.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      © <span id="year"></span> Kunal Kava
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
