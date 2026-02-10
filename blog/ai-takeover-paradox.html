@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The AI Takeover Paradox | Kunal Kava</title>
+  <meta name="description" content="The AI takeover paradox: if AI replaces jobs, who buys anything?" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Google gtag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z92JNNSW0P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z92JNNSW0P');
+  </script>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">Kunal Kava</a>
+      <nav class="nav-links">
+        <a href="/blog/">Blog</a>
+        <a href="/#projects">Projects</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#skills">Skills</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container reveal">
+      <p class="kicker"><a href="/blog/">← Back to My Takes</a></p>
+
+      <div class="card">
+        <h2>The AI Takeover Paradox: Who Buys the Robots' Products?</h2>
+        <p class="kicker">Feb 2026 · My Takes</p>
+
+        <p class="desc">Okay, so AI takes over. Congrats to the machines, I guess. Google, OpenAI, Elon Musk, Microsoft, Amazon, Meta and the likes own everything. We've got our 20-30 trillionaires sitting on top of the world.</p>
+        <p class="desc">Now what?</p>
+        <p class="desc">I've been trying to wrap my head around this, and I genuinely don't get it. If AI replaces every job, then nobody has money. And if nobody has money, who the hell is buying anything?</p>
+        <p class="desc">We're already seeing mass layoffs. Tech companies, media companies, even traditionally stable industries are cutting jobs left and right. "Efficiency gains" they call it. And this is just the beginning. What happens when the trickle becomes a flood?</p>
+
+        <h3>Capitalism Needs a Circle. AI Breaks It.</h3>
+        <p class="desc">Here's how the economy works right now:</p>
+        <p class="desc">Work → Wages → Spending → Profit → Work</p>
+        <p class="desc">That's it. That's the whole loop. You work, you get paid, you spend money on Temu slop and Amazon deliveries and your $1,000 car loan on a car that's already losing value.</p>
+        <p class="desc">But if AI replaces labor at scale and people don't earn wages anymore, that circle just... snaps.</p>
+        <p class="desc">No buyers → no revenue → no point in producing anything.</p>
+        <p class="desc">Amazon can own every factory on Earth, but if nobody can pay, why would they run them? Meta can sell infinite ads, but if nobody has spending power, who's buying the products those ads promote?</p>
+        <p class="desc">It just implodes.</p>
+
+        <h3>So What's the Plan?</h3>
+        <p class="desc">This is where people start throwing out buzzwords like:</p>
+        <ul class="summary-list">
+          <li>Universal Basic Income</li>
+          <li>Robot taxes</li>
+          <li>"New economic models"</li>
+          <li>Government subsidies</li>
+          <li>Fully automated luxury communism</li>
+        </ul>
+
+        <p class="desc">But none of those are real answers right now. They're just coping mechanisms.</p>
+        <p class="desc">Because let's be honest, if the world is run by 20 trillionaires and the rest of us are broke, do we really think those trillionaires are voluntarily handing out cash to keep the consumer engine alive?</p>
+        <p class="desc">Maybe. But history doesn't exactly support that optimism.</p>
+
+        <h3>The "AI Wins" Endgame Doesn't Make Sense</h3>
+        <p class="desc">This is the part that bugs me the most.</p>
+        <p class="desc">If AI replaces everything, then "winning" becomes meaningless. There's no market. No buyers. No functioning economy. It's like building the world's most advanced vending machine... and then deleting money.</p>
+        <p class="desc">So either:</p>
+        <ul class="summary-list">
+          <li>AI doesn't replace everything, and humans still work in some capacity, or</li>
+          <li>We shift to a fundamentally different economic model, or</li>
+          <li>Things collapse until a new balance forms (probably painfully)</li>
+        </ul>
+
+        <h3>My Gut Take</h3>
+        <p class="desc">I think most people talking about "AI taking over everything" are skipping the second-order effects.</p>
+        <p class="desc">They imagine the tech and the ownership. But they ignore the demand side. Ignore the social stability side. Ignore the political chaos side.</p>
+        <p class="desc">Consumer capitalism can't run without consumers.</p>
+        <p class="desc">And if AI deletes the consumer, it's not an upgrade. It's a self-destruct button.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © <span id="year"></span> Kunal Kava
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("show"); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
