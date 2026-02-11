@@ -437,6 +437,15 @@ a{color:inherit; text-decoration:none}
   flex: 0 0 auto;
 }
 
+.card-link{
+  display:block;
+  height:100%;
+  color:inherit;
+}
+.card-link:hover .card-title{
+  text-decoration: underline;
+}
+
 /* =========================
    BLOG LAYOUT
 ========================= */
