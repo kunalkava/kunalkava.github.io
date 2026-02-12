@@ -647,37 +647,45 @@ a{color:inherit; text-decoration:none}
 
 
 
-/* Podcast block */
-.podcast-block{
-  margin: 30px 0 40px;
+.podcast-dropdown{
+  margin: 24px 0 36px;
+  border: 1px solid rgba(15,23,42,.14);
+  border-radius: 16px;
+  background: rgba(15,23,42,.04);
+  overflow: hidden;
 }
 
-.podcast-block h3{
-  margin-bottom: 14px;
-  font-size: 18px;
+.podcast-summary{
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
   font-weight: 800;
+  font-size: 16px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Right aligned layout */
-.podcast-right{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
+.podcast-summary::-webkit-details-marker{ display:none; }
+
+.podcast-summary::after{
+  content: "▾";
+  opacity: .7;
+  font-size: 14px;
+}
+
+.podcast-dropdown[open] .podcast-summary::after{
+  content: "▴";
+}
+
+.podcast-body{
+  padding: 0 16px 16px;
 }
 
 .podcast-player{
-  width: 70%;
-  height: 166px;
-  border-radius: 16px;
+  width:100%;
+  height:166px;
+  border-radius:14px;
   overflow:hidden;
-}
-
-/* Mobile fallback */
-@media (max-width: 720px){
-  .podcast-right{
-    align-items:flex-start;
-  }
-  .podcast-player{
-    width:100%;
-  }
 }
