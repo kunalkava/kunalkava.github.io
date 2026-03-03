@@ -13,18 +13,18 @@
        Uses parent site vars + components
     ======================================== */
 
-    /* Back link */
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 0;
-      transition: color .15s ease;
+    /* Logo Notion-style */
+    .project-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,.4),
+        0 12px 36px rgba(0,0,0,.25),
+        0 0 0 1px rgba(255,255,255,.08);
+      margin-bottom: 16px;
     }
-    .back-link:hover { color: var(--text); }
 
     /* Project hero */
     .project-hero {
@@ -105,14 +105,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       transition: all .15s ease;
     }
     .platform-icon:hover {
       border-color: rgba(255,255,255,.25);
       transform: translateY(-2px);
-    }
-    .platform-icon img {
-      width: 20px; height: 20px;
     }
     .platform-label {
       font-size: 12px;
@@ -149,6 +147,14 @@
     }
     .zero-ui p strong {
       color: var(--text);
+    }
+
+    /* Gradient val — matches homepage hero stats */
+    .stat .val {
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     /* Flow architecture */
@@ -350,14 +356,18 @@
       font-size: 30px;
       font-weight: 900;
       letter-spacing: -.6px;
-    }
-    .result-card:nth-child(1) .result-val {
       background: linear-gradient(90deg, var(--c1), var(--c2));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    .result-card:nth-child(2) .result-val { color: var(--c2); }
-    .result-card:nth-child(3) .result-val { color: var(--c3); }
-    .result-card:nth-child(4) .result-val { color: var(--c4); }
+    /* Zero missed posts — orange to stand out as a negative metric */
+    .result-card:nth-child(3) .result-val {
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      color: var(--c3);
+    }
     .result-lab {
       margin-top: 4px;
       color: var(--muted);
@@ -432,13 +442,36 @@
     .project-section {
       padding: 60px 0;
     }
+
+    /* CTA contact links */
+    .cta-contact {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-contact a {
+      color: var(--c1);
+      font-weight: 700;
+      font-size: 14px;
+      transition: color .15s ease;
+    }
+    .cta-contact a:hover {
+      color: var(--c2);
+    }
+    .cta-contact .email-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
 
   <header class="nav">
     <div class="container nav-inner">
-      <div class="brand brand-gradient">Kunal Kava</div>
+      <a href="https://kunalkava.com" class="brand brand-gradient">Kunal Kava</a>
       <nav class="nav-links">
         <a href="/">Home</a>
         <a href="/blog/">Blog</a>
@@ -449,11 +482,6 @@
 
   <main>
 
-    <!-- Back link -->
-    <div class="container" style="padding-top: 24px;">
-      <a href="/#projects" class="back-link">← Back to Projects</a>
-    </div>
-
     <!-- Hero -->
     <section class="project-hero">
       <div class="blobs" aria-hidden="true">
@@ -463,7 +491,8 @@
       </div>
 
       <div class="container reveal">
-        <div class="project-badge">Live in Production · 5 Clients</div>
+        <img src="/assets/Social-autopilot-logo.png" alt="Social Autopilot logo" class="project-logo" />
+        <div class="project-badge">Live Now</div>
         <h1 class="project-title">Social Autopilot</h1>
         <p class="project-subtitle">Zero-UI Social Media Automation Engine</p>
         <p class="project-tagline">
@@ -472,13 +501,29 @@
 
         <div class="platforms">
           <div class="platform-icon" title="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153A4.904 4.904 0 012.525 18.55c-.247-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2z" fill="url(#ig)"/><defs><linearGradient id="ig" x1="2" y1="22" x2="22" y2="2"><stop stop-color="#FFDD55"/><stop offset=".5" stop-color="#FF543E"/><stop offset="1" stop-color="#C837AB"/></linearGradient></defs><circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="ig_grad" cx="30%" cy="107%" r="150%">
+                  <stop offset="0%" stop-color="#fdf497"/>
+                  <stop offset="5%" stop-color="#fdf497"/>
+                  <stop offset="45%" stop-color="#fd5949"/>
+                  <stop offset="60%" stop-color="#d6249f"/>
+                  <stop offset="90%" stop-color="#285AEB"/>
+                </radialGradient>
+              </defs>
+              <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#ig_grad)"/>
+              <rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
+              <circle cx="12" cy="12" r="3.5" stroke="white" stroke-width="1.5" fill="none"/>
+              <circle cx="17" cy="7" r="1" fill="white"/>
+            </svg>
           </div>
           <div class="platform-icon" title="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
           </div>
           <div class="platform-icon" title="Threads">
-            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M12.186 24h-.007C5.965 24 2.615 20.2 2.615 14.597V14.4c0-3.5 1.2-6.4 3.5-8.3C8.015 4.5 10.215 3.6 12.815 3.6c2.4 0 4.3.7 5.8 2.1 1.4 1.3 2.2 3.1 2.3 5.2l-2.8.3c-.1-1.4-.6-2.5-1.5-3.3-.9-.8-2.1-1.2-3.7-1.2-1.8 0-3.3.6-4.5 1.8-1.2 1.3-1.8 3.2-1.8 5.7v.2c0 4.1 2.2 6.8 6.3 6.8 1.3 0 2.5-.3 3.4-.8.9-.5 1.6-1.2 2-2.1l2.5 1.2c-.6 1.3-1.6 2.4-2.9 3.2-1.4.8-3 1.3-4.8 1.3zm5.2-8.9c-.1-1.1-.5-2-1.3-2.6-.7-.6-1.7-.9-2.8-.9-1 0-1.8.3-2.5.8-.6.5-1 1.3-1.1 2.2h7.7z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+              <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.672-1.14-23.77 1.371-39.07 15.283-38.085 34.65.493 9.744 5.333 18.123 13.623 23.6 7.022 4.64 16.064 6.959 25.456 6.53 12.39-.566 22.1-5.263 28.863-13.954 5.135-6.601 8.401-15.19 9.85-25.882 5.904 3.565 10.283 8.252 12.704 13.891 4.118 9.588 4.359 25.327-7.384 37.064-10.326 10.32-22.741 14.782-41.456 14.93C81.1 172.645 63.78 166.474 51.32 154.03 39.955 142.679 33.86 126.988 33.654 107.31c.206-19.679 6.301-35.37 17.666-46.721C63.78 48.146 81.1 41.975 103.045 41.783c22.08.194 39.591 6.414 52.058 18.497 6.127 5.943 10.8 13.014 14.044 21.089l15.512-6.517c-3.89-9.68-9.612-18.177-17.156-25.392C152.367 34.776 131.577 27.266 103.102 27.05h-.113C74.633 27.266 54.014 34.72 39.134 49.392 22.67 65.633 14.148 87.876 13.9 107.246v.127c.248 19.37 8.77 41.613 25.234 57.854 14.88 14.672 35.499 22.126 63.855 22.34h.113c22.7-.163 39.058-6.212 52.872-19.558 17.786-17.186 17.147-39.2 11.451-52.476-4.084-9.522-11.877-17.228-22.887-22.545zm-39.839 51.928c-10.393.473-21.19-4.074-21.685-13.841-.365-7.207 5.088-15.246 24.126-16.343 2.114-.122 4.178-.183 6.2-.183 6.278 0 12.159.605 17.434 1.763-1.986 22.237-14.48 28.132-26.075 28.604z" fill="white"/>
+            </svg>
           </div>
           <span class="platform-label">Currently live on Instagram, Facebook & Threads</span>
         </div>
@@ -500,7 +545,7 @@
           </div>
           <div class="stat">
             <div class="val">450+</div>
-            <div class="lab">Posts Automated / Mo</div>
+            <div class="lab">Posts Automated</div>
           </div>
           <div class="stat">
             <div class="val">95%</div>
@@ -786,7 +831,7 @@
             I built it, tested it on my own accounts for weeks, ironed out every edge case — missing files, API failures, timezone mismatches, carousel image ordering — and then offered it to small businesses. The response validated the thesis: <strong>people don't want a better scheduling tool. They want to not think about scheduling at all.</strong>
           </p>
           <p>
-            Today, 5 clients use Social Autopilot at ₹1,000/month each. The entire infrastructure runs on free-tier cloud services and open-source tools — making the unit economics essentially infinite. And that's just the beginning.
+            Today, 5 clients use Social Autopilot at ₹1,000/month each. And that's just the beginning.
           </p>
         </div>
       </div>
@@ -800,8 +845,12 @@
         <h2>Interested?</h2>
         <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
         <div class="cta">
-          <a class="btn primary" href="/#contact">Get In Touch →</a>
+          <a class="btn primary" href="mailto:hi@kunalkava.com">Get In Touch →</a>
           <a class="btn outline" href="/">View Full Portfolio</a>
+        </div>
+        <div class="cta-contact">
+          <span class="email-label">Email me</span>
+          <a href="mailto:kunalhkava@gmail.com">kunalhkava@gmail.com</a>
         </div>
       </div>
     </section>
