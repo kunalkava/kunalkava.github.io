@@ -13,25 +13,6 @@
        Uses parent site vars + components
     ======================================== */
 
-    /* Logo Notion-style */
-    .project-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 18px;
-      object-fit: cover;
-      box-shadow: 
-        0 4px 12px rgba(0,0,0,.4),
-        0 12px 36px rgba(0,0,0,.25),
-        0 0 0 1px rgba(255,255,255,.08);
-      margin-bottom: 16px;
-    }
-
-    /* Project hero */
-    .project-hero {
-      padding: 60px 0 50px;
-      position: relative;
-    }
-
     .project-badge {
       display: inline-flex;
       align-items: center;
@@ -44,7 +25,20 @@
       font-weight: 700;
       color: var(--c1);
       letter-spacing: 0.5px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+    }
+
+    .project-logo {
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,.4),
+        0 12px 36px rgba(0,0,0,.25),
+        0 0 0 1px rgba(255,255,255,.08);
+      margin-bottom: 20px;
     }
     .project-badge::before {
       content: '';
@@ -149,12 +143,15 @@
       color: var(--text);
     }
 
-    /* Gradient val — matches homepage hero stats */
+    /* Gradient val — tight gradient visible even on single digits */
     .stat .val {
-      background: linear-gradient(90deg, var(--c1), var(--c2));
+      background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      -webkit-text-fill-color: transparent;
+      background-size: 100% 100%;
+      display: inline-block;
     }
 
     /* Flow architecture */
@@ -491,8 +488,8 @@
       </div>
 
       <div class="container reveal">
-        <img src="/assets/Social-autopilot-logo.png" alt="Social Autopilot logo" class="project-logo" />
         <div class="project-badge">Live Now</div>
+        <img src="/assets/Social-autopilot-logo.png" alt="Social Autopilot logo" class="project-logo" />
         <h1 class="project-title">Social Autopilot</h1>
         <p class="project-subtitle">Zero-UI Social Media Automation Engine</p>
         <p class="project-tagline">
@@ -696,17 +693,6 @@
             <div class="result-lab">Setup per Post</div>
           </div>
         </div>
-
-        <div class="tech-row">
-          <span class="tag">n8n</span>
-          <span class="tag">Buffer MCP API</span>
-          <span class="tag">Google Sheets API</span>
-          <span class="tag">Google Drive API</span>
-          <span class="tag">Telegram Bot API</span>
-          <span class="tag">Meta Graph API</span>
-          <span class="tag">OAuth 2.0</span>
-          <span class="tag">JavaScript</span>
-        </div>
       </div>
     </section>
 
@@ -850,7 +836,7 @@
         </div>
         <div class="cta-contact">
           <span class="email-label">Email me</span>
-          <a href="mailto:kunalhkava@gmail.com">kunalhkava@gmail.com</a>
+          <a href="mailto:hi@kunalkava.com">hi@kunalkava.com</a>
         </div>
       </div>
     </section>
@@ -862,11 +848,4 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.1 });
-    els.forEach(el => obs.observe(el));
-  </script>
-</body>
-</html>
+    const
