@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Social Autopilot — AI-Powered Social Media Automation | Kunal Kava</title>
+  <meta name="description" content="An AI-powered zero-UI automation engine that transforms a Google Sheet into a social media command center." />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ========================================
+       PROJECT PAGE — SOCIAL AUTOPILOT
+       Uses parent site vars + components
+    ======================================== */
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 0;
+      transition: color .15s ease;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* Project hero */
+    .project-hero {
+      padding: 60px 0 50px;
+      position: relative;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34, 211, 238, .08);
+      border: 1px solid rgba(34, 211, 238, .25);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c1);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+    .project-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--c1);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .project-title {
+      font-size: clamp(40px, 5.5vw, 64px);
+      font-weight: 900;
+      letter-spacing: -1.6px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .project-subtitle {
+      font-size: 20px;
+      color: rgba(233, 237, 246, .90);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .project-tagline {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.75;
+    }
+
+    .project-tagline em {
+      color: var(--text);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* Platform logos */
+    .platforms {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .platform-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s ease;
+    }
+    .platform-icon:hover {
+      border-color: rgba(255,255,255,.25);
+      transform: translateY(-2px);
+    }
+    .platform-icon img {
+      width: 20px; height: 20px;
+    }
+    .platform-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Zero UI callout */
+    .zero-ui {
+      margin-top: 48px;
+      padding: 28px 32px;
+      background: linear-gradient(135deg, rgba(34,211,238,.06), rgba(167,139,250,.06));
+      border: 1px solid rgba(34,211,238,.15);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .zero-ui-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .zero-ui h3 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--c1);
+    }
+    .zero-ui p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .zero-ui p strong {
+      color: var(--text);
+    }
+
+    /* Flow architecture */
+    .flow-container {
+      margin-top: 36px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 36px;
+      box-shadow: var(--shadowSoft);
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+    }
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 80px;
+    }
+    .flow-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+    }
+    .flow-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .flow-arrow {
+      color: rgba(255,255,255,.2);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .flow-steps { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+
+    /* Problem / Solution cards */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+    @media (max-width: 768px) {
+      .ps-grid { grid-template-columns: 1fr; }
+    }
+    .ps-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ps-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .ps-card.problem::before {
+      background: linear-gradient(90deg, #fb7185, transparent);
+    }
+    .ps-card.solution::before {
+      background: linear-gradient(90deg, var(--c1), transparent);
+    }
+    .ps-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .ps-card.problem h3 { color: #fb7185; }
+    .ps-card.solution h3 { color: var(--c1); }
+    .ps-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ps-list li {
+      font-size: 14px;
+      color: var(--muted);
+      padding-left: 22px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .ps-card.problem .ps-list li::before {
+      content: '✕';
+      position: absolute;
+      left: 0; top: 1px;
+      color: #fb7185;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .ps-card.solution .ps-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0; top: 0;
+      color: var(--c1);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    /* Features grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+    }
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 28px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: rgba(255,255,255,.18);
+    }
+    .feature-card .f-icon {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+    .feature-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Coming soon badge */
+    .soon-badge {
+      font-size: 10px;
+      background: rgba(167,139,250,.12);
+      color: var(--c2);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* Results grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+    }
+    @media (max-width: 768px) {
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .result-card {
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .result-val {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.6px;
+    }
+    .result-card:nth-child(1) .result-val {
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .result-card:nth-child(2) .result-val { color: var(--c2); }
+    .result-card:nth-child(3) .result-val { color: var(--c3); }
+    .result-card:nth-child(4) .result-val { color: var(--c4); }
+    .result-lab {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Target customer */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+    }
+    @media (max-width: 768px) {
+      .target-grid { grid-template-columns: 1fr; }
+    }
+    .target-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 28px;
+    }
+    .target-card .t-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .target-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .target-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Story section */
+    .story-block {
+      margin-top: 36px;
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 36px;
+    }
+    .story-block h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .story-block p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+    .story-block p:last-child { margin-bottom: 0; }
+    .story-block p strong {
+      color: var(--text);
+    }
+
+    /* Tech stack */
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    /* Section spacing override */
+    .project-section {
+      padding: 60px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand brand-gradient">Kunal Kava</div>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Back link -->
+    <div class="container" style="padding-top: 24px;">
+      <a href="/#projects" class="back-link">← Back to Projects</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="project-hero">
+      <div class="blobs" aria-hidden="true">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+
+      <div class="container reveal">
+        <div class="project-badge">Live in Production · 5 Clients</div>
+        <h1 class="project-title">Social Autopilot</h1>
+        <p class="project-subtitle">Zero-UI Social Media Automation Engine</p>
+        <p class="project-tagline">
+          An AI-powered automation system that transforms a <em>simple Google Sheet</em> into a fully automated social media command center — scheduling and publishing posts across multiple platforms with <em>zero manual intervention</em>.
+        </p>
+
+        <div class="platforms">
+          <div class="platform-icon" title="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153A4.904 4.904 0 012.525 18.55c-.247-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2z" fill="url(#ig)"/><defs><linearGradient id="ig" x1="2" y1="22" x2="22" y2="2"><stop stop-color="#FFDD55"/><stop offset=".5" stop-color="#FF543E"/><stop offset="1" stop-color="#C837AB"/></linearGradient></defs><circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg>
+          </div>
+          <div class="platform-icon" title="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          </div>
+          <div class="platform-icon" title="Threads">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M12.186 24h-.007C5.965 24 2.615 20.2 2.615 14.597V14.4c0-3.5 1.2-6.4 3.5-8.3C8.015 4.5 10.215 3.6 12.815 3.6c2.4 0 4.3.7 5.8 2.1 1.4 1.3 2.2 3.1 2.3 5.2l-2.8.3c-.1-1.4-.6-2.5-1.5-3.3-.9-.8-2.1-1.2-3.7-1.2-1.8 0-3.3.6-4.5 1.8-1.2 1.3-1.8 3.2-1.8 5.7v.2c0 4.1 2.2 6.8 6.3 6.8 1.3 0 2.5-.3 3.4-.8.9-.5 1.6-1.2 2-2.1l2.5 1.2c-.6 1.3-1.6 2.4-2.9 3.2-1.4.8-3 1.3-4.8 1.3zm5.2-8.9c-.1-1.1-.5-2-1.3-2.6-.7-.6-1.7-.9-2.8-.9-1 0-1.8.3-2.5.8-.6.5-1 1.3-1.1 2.2h7.7z"/></svg>
+          </div>
+          <span class="platform-label">Currently live on Instagram, Facebook & Threads</span>
+        </div>
+
+        <!-- Zero UI callout -->
+        <div class="zero-ui">
+          <span class="zero-ui-icon">🎯</span>
+          <div>
+            <h3>Zero-UI Philosophy</h3>
+            <p>The end user never touches a dashboard, never learns a new tool, never logs into anything. They fill a <strong>Google Sheet</strong> they already know, upload images to a <strong>Google Drive folder</strong> they already use, and receive a <strong>Telegram ping</strong> when posts go live. The entire automation layer is invisible.</p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" style="margin-top: 40px;">
+          <div class="stat">
+            <div class="val">5</div>
+            <div class="lab">Active Clients</div>
+          </div>
+          <div class="stat">
+            <div class="val">450+</div>
+            <div class="lab">Posts Automated / Mo</div>
+          </div>
+          <div class="stat">
+            <div class="val">95%</div>
+            <div class="lab">Time Saved</div>
+          </div>
+          <div class="stat">
+            <div class="val">₹0</div>
+            <div class="lab">Infrastructure Cost</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- How It Works -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>How It Works</h2>
+        <p class="kicker">A fully automated pipeline. The client fills a spreadsheet. Everything else happens behind the scenes.</p>
+
+        <div class="flow-container">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-icon">📊</div>
+              <span class="flow-label">Google Sheet<br>Content Calendar</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-icon">⚡</div>
+              <span class="flow-label">n8n Engine<br>Orchestration</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-icon">📁</div>
+              <span class="flow-label">Google Drive<br>Image Fetch</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-icon">🔗</div>
+              <span class="flow-label">MCP API<br>Scheduling</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-icon">📱</div>
+              <span class="flow-label">Social Media<br>Auto-publish</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <div class="flow-icon">🔔</div>
+              <span class="flow-label">Telegram<br>Notification</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problem / Solution -->
+        <div class="ps-grid" style="margin-top: 36px;">
+          <div class="ps-card problem">
+            <h3>✕ Manual Posting</h3>
+            <ul class="ps-list">
+              <li>15-20 minutes per post across 3 platforms</li>
+              <li>Missed schedules due to human error</li>
+              <li>One person handles 5-8 accounts max</li>
+              <li>No visibility into post status or failures</li>
+              <li>Repetitive copy-paste workflow</li>
+            </ul>
+          </div>
+          <div class="ps-card solution">
+            <h3>✓ With Social Autopilot</h3>
+            <ul class="ps-list">
+              <li>Fill a Google Sheet — posts go live automatically</li>
+              <li>Zero missed posts with dual triggers + backup</li>
+              <li>One person manages 20+ accounts effortlessly</li>
+              <li>Real-time Telegram alerts on every post</li>
+              <li>Single caption → published across all platforms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Capabilities -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>Capabilities</h2>
+        <p class="kicker">Every edge case handled. Every failure caught. Designed to run unattended and self-report issues.</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="f-icon">📅</div>
+            <h3>Smart Scheduling</h3>
+            <p>Processes only today's posts with timezone awareness. Dual triggers at midnight and 6 AM as backup ensure nothing is missed.</p>
+          </div>
+          <div class="feature-card">
+            <div class="f-icon">🖼️</div>
+            <h3>Carousel Support</h3>
+            <p>Up to 10 images per post. The system searches Google Drive, builds public URLs, and assembles carousel assets automatically.</p>
+          </div>
+          <div class="feature-card">
+            <div class="f-icon">🔄</div>
+            <h3>Status Tracking</h3>
+            <p>Every post's journey is tracked — from Ready to Queued to Posted. Failed posts include the exact error for quick debugging.</p>
+          </div>
+          <div class="feature-card">
+            <div class="f-icon">🛡️</div>
+            <h3>Error Recovery</h3>
+            <p>Validation errors, missing files, API failures — each scenario routes to specific handlers that update the Sheet and notify via Telegram.</p>
+          </div>
+          <div class="feature-card">
+            <div class="f-icon">⚡</div>
+            <h3>MCP Protocol</h3>
+            <p>Leverages the Model Context Protocol for reliable API communication — supporting custom scheduling, metadata, and platform configs.</p>
+          </div>
+          <div class="feature-card">
+            <div class="f-icon">🔔</div>
+            <h3>Instant Alerts</h3>
+            <p>Real-time Telegram notifications on success or failure — caption preview, scheduled time, image count, and error details.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Results -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>Impact</h2>
+        <p class="kicker">Measured outcomes from live client deployments.</p>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-val">95%</div>
+            <div class="result-lab">Time Saved on Posting</div>
+          </div>
+          <div class="result-card">
+            <div class="result-val">3x</div>
+            <div class="result-lab">Accounts per Person</div>
+          </div>
+          <div class="result-card">
+            <div class="result-val">0</div>
+            <div class="result-lab">Missed Scheduled Posts</div>
+          </div>
+          <div class="result-card">
+            <div class="result-val">&lt;2min</div>
+            <div class="result-lab">Setup per Post</div>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="tag">n8n</span>
+          <span class="tag">Buffer MCP API</span>
+          <span class="tag">Google Sheets API</span>
+          <span class="tag">Google Drive API</span>
+          <span class="tag">Telegram Bot API</span>
+          <span class="tag">Meta Graph API</span>
+          <span class="tag">OAuth 2.0</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Coming Soon -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>Roadmap</h2>
+        <p class="kicker">Actively building the next wave of capabilities.</p>
+
+        <div class="features-grid">
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🤖</div>
+            <h3>AI Captions <span class="soon-badge">COMING SOON</span></h3>
+            <p>Feed it a topic or keywords, and an LLM generates platform-optimized captions with hashtags — tailored to brand voice and audience.</p>
+          </div>
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🎬</div>
+            <h3>Reels & Stories <span class="soon-badge">COMING SOON</span></h3>
+            <p>Full support for Instagram Reels and Stories — upload videos to Drive, set post type in the Sheet, and the engine handles format-specific publishing.</p>
+          </div>
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🌐</div>
+            <h3>X, LinkedIn & YouTube <span class="soon-badge">COMING SOON</span></h3>
+            <p>Expanding beyond Meta — post to X (Twitter), LinkedIn, and YouTube Shorts from the same Google Sheet. One row, six platforms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Target Customers -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>Who It's For</h2>
+        <p class="kicker">Designed for anyone who posts regularly and values their time.</p>
+
+        <div class="target-grid">
+          <div class="target-card">
+            <div class="t-icon">🏢</div>
+            <h3>Digital Marketing Agencies</h3>
+            <p>Managing 10-20 client accounts? Your team currently handles 5-8 accounts per person. With Autopilot, that same person handles 20+ — same salary, 3x output.</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">🛍️</div>
+            <h3>Small & Medium Businesses</h3>
+            <p>Restaurant owners, gym owners, boutiques — they want to post consistently but don't want to learn Buffer or Hootsuite. They fill a spreadsheet, we handle the rest.</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">📸</div>
+            <h3>Content Creators & Influencers</h3>
+            <p>Posting 3-10 times daily across platforms is exhausting. Autopilot eliminates the repetitive scheduling work so creators can focus on creating.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- The Story Behind It -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>The Story Behind This</h2>
+        <p class="kicker">Why I built Social Autopilot — the problem, the thinking, and the journey.</p>
+
+        <div class="features-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 36px; margin-bottom: 28px;">
+          <div class="feature-card" style="border-left: 2px solid var(--c1); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">👀</div>
+            <h3>Observation</h3>
+            <p>Small businesses miss peak posting windows because they're busy running their business.</p>
+          </div>
+          <div class="feature-card" style="border-left: 2px solid var(--c2); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">🔍</div>
+            <h3>Research</h3>
+            <p>Explored existing tools — Buffer, Hootsuite, Later, Sprout Social — and found them overbuilt and overpriced for SMBs.</p>
+          </div>
+          <div class="feature-card" style="border-left: 2px solid var(--c3); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">💡</div>
+            <h3>Insight</h3>
+            <p>"What if the user didn't have to learn anything at all?" — the zero-UI thesis.</p>
+          </div>
+          <div class="feature-card" style="border-left: 2px solid var(--c4); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">🎯</div>
+            <h3>Design Philosophy</h3>
+            <p>Everyone knows spreadsheets. Make that the interface. Hide everything else.</p>
+          </div>
+          <div class="feature-card" style="border-left: 2px solid var(--c1); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">✅</div>
+            <h3>Validation</h3>
+            <p>Built it, tested it, offered it. Clients confirmed the thesis — 5 paying users in the first month.</p>
+          </div>
+          <div class="feature-card" style="border-left: 2px solid var(--c2); border-radius: 8px 26px 26px 8px;">
+            <div class="f-icon">🎤</div>
+            <h3>The Punchline</h3>
+            <p>"People don't want a better scheduling tool. They want to not think about scheduling at all."</p>
+          </div>
+        </div>
+
+        <div class="story-block">
+          <h3>The research that led to Social Autopilot.</h3>
+          <p>
+            It started with a simple observation. Small and medium business owners — a café in Mumbai, a boutique in Jaipur, a gym in Pune — know that posting consistently on social media drives footfall and sales. But they're running a business. They don't have time to stop what they're doing at 6 PM because that's when their audience is most active on Instagram. <strong>They miss the window. Every day.</strong>
+          </p>
+          <p>
+            The obvious answer is scheduling tools. So I researched what's out there — Buffer, Hootsuite, Later, Sprout Social, Loomly, Planoly. Dozens of options. And that's where the real problem became clear.
+          </p>
+          <p>
+            These tools are <strong>built for marketers, not business owners</strong>. They come loaded with analytics dashboards, content calendars, team collaboration features, approval workflows, audience insights — powerful stuff, but overwhelming for someone who just wants three posts to go out this week. The pricing reflects that too. ₹1,500-8,000/month for features a small business will never touch. And every one of them requires learning a new interface, creating yet another account, and building yet another habit.
+          </p>
+          <p>
+            That's when the core question hit me: <strong>what if the user didn't have to learn anything at all?</strong>
+          </p>
+          <p>
+            Everyone knows how to use a spreadsheet. A restaurant owner who tracks daily expenses in Google Sheets already has the muscle memory. What if the entire social media workflow lived inside that same familiar spreadsheet — no new tool, no new login, no new interface? Fill a row, drop images in a folder, done. The automation layer handles everything else invisibly.
+          </p>
+          <p>
+            That insight shaped every design decision. <strong>Zero UI. Zero learning curve. Zero friction.</strong> The technology under the hood is sophisticated — n8n orchestration, MCP protocol integration, Google API pipelines, real-time error handling — but the user never sees any of it. They see a spreadsheet and a Telegram notification confirming their post went live.
+          </p>
+          <p>
+            I built it, tested it on my own accounts for weeks, ironed out every edge case — missing files, API failures, timezone mismatches, carousel image ordering — and then offered it to small businesses. The response validated the thesis: <strong>people don't want a better scheduling tool. They want to not think about scheduling at all.</strong>
+          </p>
+          <p>
+            Today, 5 clients use Social Autopilot at ₹1,000/month each. The entire infrastructure runs on free-tier cloud services and open-source tools — making the unit economics essentially infinite. And that's just the beginning.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CTA -->
+    <section class="project-section" style="padding-bottom: 100px;">
+      <div class="container reveal" style="text-align: center;">
+        <h2>Interested?</h2>
+        <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
+        <div class="cta">
+          <a class="btn primary" href="/#contact">Get In Touch →</a>
+          <a class="btn outline" href="/">View Full Portfolio</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © <span id="year"></span> Kunal Kava · Made with Love and Vibe Code
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.1 });
+    els.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
