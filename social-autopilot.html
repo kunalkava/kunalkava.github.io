@@ -857,4 +857,12 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.05 });
+    els.forEach(el => obs.observe(el));
+    setTimeout(() => { els.forEach(el => el.classList.add('show')); }, 300);
+  </script>
+</body>
+</html>
