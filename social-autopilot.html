@@ -34,7 +34,7 @@
       font-weight: 700;
       color: var(--c1);
       letter-spacing: 0.5px;
-      margin-bottom: 20px;
+      margin-bottom: 28px;
     }
 
     /* Project hero */
@@ -651,7 +651,7 @@
           <div class="feature-card">
             <div class="f-icon">📅</div>
             <h3>Smart Scheduling</h3>
-            <p>Processes only today's posts with timezone awareness. Dual triggers at midnight and 6 AM as backup ensure nothing is missed.</p>
+            <p>Fully configurable triggers — schedule posts at midnight, every hour, every 5 minutes, or push a manual trigger to publish instantly. Dual daily triggers with backup ensure nothing is missed, and on-demand mode lets you go live the moment you're ready.</p>
           </div>
           <div class="feature-card">
             <div class="f-icon">🖼️</div>
@@ -713,34 +713,6 @@
 
     <hr class="divider" />
 
-    <!-- Coming Soon -->
-    <section class="project-section">
-      <div class="container reveal">
-        <h2>Roadmap</h2>
-        <p class="kicker">Actively building the next wave of capabilities.</p>
-
-        <div class="features-grid">
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🤖</div>
-            <h3>AI Captions <span class="soon-badge">COMING SOON</span></h3>
-            <p>Feed it a topic or keywords, and an LLM generates platform-optimized captions with hashtags — tailored to brand voice and audience.</p>
-          </div>
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🎬</div>
-            <h3>Reels & Stories <span class="soon-badge">COMING SOON</span></h3>
-            <p>Full support for Instagram Reels and Stories — upload videos to Drive, set post type in the Sheet, and the engine handles format-specific publishing.</p>
-          </div>
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🌐</div>
-            <h3>X, LinkedIn & YouTube <span class="soon-badge">COMING SOON</span></h3>
-            <p>Expanding beyond Meta — post to X (Twitter), LinkedIn, and YouTube Shorts from the same Google Sheet. One row, six platforms.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <hr class="divider" />
-
     <!-- Target Customers -->
     <section class="project-section">
       <div class="container reveal">
@@ -762,6 +734,34 @@
             <div class="t-icon">📸</div>
             <h3>Content Creators & Influencers</h3>
             <p>Posting 3-10 times daily across platforms is exhausting. Autopilot eliminates the repetitive scheduling work so creators can focus on creating.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Coming Soon -->
+    <section class="project-section">
+      <div class="container reveal">
+        <h2>Roadmap</h2>
+        <p class="kicker">Actively building the next wave of capabilities.</p>
+
+        <div class="features-grid">
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🤖</div>
+            <h3>AI Captions <span class="soon-badge">COMING SOON</span></h3>
+            <p>Feed it a topic or keywords, and an LLM generates platform-optimized captions with hashtags — tailored to brand voice and audience.</p>
+          </div>
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🎬</div>
+            <h3>Reels & Stories <span class="soon-badge">COMING SOON</span></h3>
+            <p>Full support for Instagram Reels and Stories — upload videos to Drive, set post type in the Sheet, and the engine handles format-specific publishing.</p>
+          </div>
+          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
+            <div class="f-icon">🌐</div>
+            <h3>X, LinkedIn & YouTube <span class="soon-badge">COMING SOON</span></h3>
+            <p>Expanding beyond Meta — post to X (Twitter), LinkedIn, and YouTube Shorts from the same Google Sheet. One row, six platforms.</p>
           </div>
         </div>
       </div>
@@ -846,12 +846,12 @@
         <h2>Interested?</h2>
         <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
         <div class="cta">
-          <a class="btn primary" href="mailto:hi@kunalkava.com">Get In Touch →</a>
+          <a class="btn primary" href="/cdn-cgi/l/email-protection#402829002b352e212c2b2136216e232f2d">Get In Touch →</a>
           <a class="btn outline" href="/">View Full Portfolio</a>
         </div>
         <div class="cta-contact">
           <span class="email-label">Email me</span>
-          <a href="mailto:hi@kunalkava.com">hi@kunalkava.com</a>
+          <a href="/cdn-cgi/l/email-protection#234b4a6348564d424f484255420d404c4e"><span class="__cf_email__" data-cfemail="3d55547d5648535c51565c4b5c135e5250">[email&#160;protected]</span></a>
         </div>
       </div>
     </section>
@@ -861,14 +861,8 @@
     </footer>
   </main>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     document.getElementById('year').textContent = new Date().getFullYear();
     const els = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
-    }, { threshold: 0.05 });
-    els.forEach(el => obs.observe(el));
-    setTimeout(() => { els.forEach(el => el.classList.add('show')); }, 300);
-  </script>
-</body>
-</html>
+      entries
