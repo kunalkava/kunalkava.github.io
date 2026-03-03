@@ -846,12 +846,12 @@
         <h2>Interested?</h2>
         <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
         <div class="cta">
-          <a class="btn primary" href="/cdn-cgi/l/email-protection#402829002b352e212c2b2136216e232f2d">Get In Touch →</a>
+          <a class="btn primary" href="mailto:hi&#64;kunalkava.com">Get In Touch →</a>
           <a class="btn outline" href="/">View Full Portfolio</a>
         </div>
         <div class="cta-contact">
           <span class="email-label">Email me</span>
-          <a href="/cdn-cgi/l/email-protection#234b4a6348564d424f484255420d404c4e"><span class="__cf_email__" data-cfemail="3d55547d5648535c51565c4b5c135e5250">[email&#160;protected]</span></a>
+          <a href="mailto:hi&#64;kunalkava.com">hi&#64;kunalkava.com</a>
         </div>
       </div>
     </section>
@@ -861,8 +861,14 @@
     </footer>
   </main>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries) => {
-      entries
+    var els = document.querySelectorAll('.reveal');
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.05 });
+    els.forEach(function(el) { obs.observe(el); });
+    setTimeout(function() { els.forEach(function(el) { el.classList.add('show'); }); }, 300);
+  </script>
+</body>
+</html>
