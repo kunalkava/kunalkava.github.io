@@ -938,3 +938,206 @@ a{color:inherit; text-decoration:none}
   opacity: 1;
   transform: translateY(0);
 }
+
+
+
+/* =========================
+   FlowBell Expandable Card
+   Add to style.css, after the Social Autopilot styles
+========================= */
+
+.flowbell-card {
+  background: linear-gradient(135deg, rgba(126,220,149,.06), rgba(34,211,238,.04), rgba(167,139,250,.04));
+  border: 1px solid rgba(126,220,149,.2);
+  border-radius: var(--radius2);
+  box-shadow: var(--shadowSoft);
+  transition: box-shadow .15s ease, border-color .15s ease;
+  overflow: hidden;
+}
+.flowbell-card:hover {
+  box-shadow: var(--shadow);
+  border-color: rgba(126,220,149,.32);
+}
+.flowbell-card.is-open {
+  border-color: rgba(126,220,149,.38);
+}
+
+/* Collapsed header — always visible, fully clickable */
+.flowbell-collapsed {
+  padding: 28px;
+  cursor: pointer;
+}
+.flowbell-inner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+.flowbell-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(126,220,149,.10);
+  border: 1px solid rgba(126,220,149,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+}
+.flowbell-header-content { flex: 1; }
+.flowbell-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+.flowbell-top > div:first-child { flex: 1; }
+
+.flowbell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(126,220,149,.1);
+  border: 1px solid rgba(126,220,149,.3);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7edc95;
+  white-space: nowrap;
+}
+.flowbell-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: #7edc95;
+  border-radius: 50%;
+  animation: flowbell-pulse 2s infinite;
+}
+@keyframes flowbell-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.flowbell-title {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -.3px;
+  margin: 0 0 2px;
+  background: linear-gradient(90deg, #7edc95, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.flowbell-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.flowbell-teaser {
+  color: rgba(233,237,246,.90);
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+/* Chevron rotates on open */
+.flowbell-chevron {
+  color: rgba(255,255,255,.3);
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: transform .28s ease, color .2s ease;
+  margin-top: 2px;
+}
+.flowbell-card.is-open .flowbell-chevron {
+  transform: rotate(180deg);
+  color: #7edc95;
+}
+
+/* Expanded section — hidden by default */
+.flowbell-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .38s cubic-bezier(0.4, 0, 0.2, 1), opacity .28s ease;
+  opacity: 0;
+}
+.flowbell-card.is-open .flowbell-expanded {
+  max-height: 900px;
+  opacity: 1;
+}
+.flowbell-expand-inner {
+  padding: 0 28px 28px;
+  border-top: 1px solid rgba(126,220,149,.12);
+  margin: 0 28px;
+}
+.flowbell-section {
+  margin-top: 22px;
+}
+.flowbell-section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: #7edc95;
+  margin-bottom: 10px;
+  opacity: .85;
+}
+.flowbell-body {
+  color: rgba(233,237,246,.85);
+  font-size: 14px;
+  line-height: 1.72;
+  margin: 0 0 10px;
+}
+.flowbell-body:last-child { margin-bottom: 0; }
+
+.flowbell-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.flowbell-mval {
+  background: linear-gradient(135deg, #7edc95, #22d3ee) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block;
+}
+
+/* CTA button at bottom of expanded */
+.flowbell-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(126,220,149,.3);
+  background: rgba(126,220,149,.08);
+  color: #7edc95;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .18s ease, border-color .18s ease, transform .15s ease, box-shadow .15s ease;
+}
+.flowbell-cta:hover {
+  background: rgba(126,220,149,.15);
+  border-color: rgba(126,220,149,.5);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(126,220,149,.14);
+}
+.flowbell-cta-arrow {
+  transition: transform .2s ease;
+}
+.flowbell-cta:hover .flowbell-cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  .flowbell-inner { grid-template-columns: 1fr; }
+  .flowbell-icon { width: 48px; height: 48px; font-size: 22px; }
+  .flowbell-collapsed { padding: 20px; }
+  .flowbell-expand-inner { padding: 0 20px 20px; margin: 0 20px; }
+}
+
+
