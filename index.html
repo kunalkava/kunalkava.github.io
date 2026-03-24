@@ -636,6 +636,23 @@
   }, { threshold: 0.12 });
 
   els.forEach(el => io.observe(el));
+
+    const flowbellCard = document.getElementById('flowbellCard');
+    const flowbellToggle = document.getElementById('flowbellToggle');
+    if (flowbellCard && flowbellToggle) {
+      flowbellToggle.addEventListener('click', () => {
+        const isOpen = flowbellCard.classList.toggle('is-open');
+        flowbellToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      flowbellToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          flowbellToggle.click();
+        }
+      });
+    }
+
+    
 </script>
 </body>
 </html>
