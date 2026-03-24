@@ -1049,7 +1049,7 @@ a{color:inherit; text-decoration:none}
   opacity: 0;
 }
 .flowbell-card.is-open .flowbell-expanded {
-  max-height: 900px;
+  max-height: 1600px;
   opacity: 1;
 }
 .flowbell-expand-inner {
