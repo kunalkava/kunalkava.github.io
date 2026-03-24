@@ -972,19 +972,6 @@ a{color:inherit; text-decoration:none}
   gap: 24px;
   align-items: flex-start;
 }
-.flowbell-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: rgba(126,220,149,.10);
-  border: 1px solid rgba(126,220,149,.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,.3);
-}
 .flowbell-header-content { flex: 1; }
 .flowbell-top {
   display: flex;
