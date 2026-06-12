@@ -6,10 +6,10 @@
   <title>Social Autopilot — AI-Powered Social Media Automation | Kunal Kava</title>
   <meta name="description" content="An AI-powered zero-UI automation engine that transforms a Google Sheet into a social media command center." />
 
-  <!-- Google Fonts: Fraunces + DM Sans (brand system) + Inter (portfolio match for nav) -->
+  <!-- Google Fonts: Fraunces + DM Sans (brand system) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet" />
 
   <!-- Google gtag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z92JNNSW0P"></script>
@@ -111,25 +111,21 @@
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 0.5px solid var(--line);
     }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .sa-container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 56px;
     }
-    /* Brand name uses Inter to match portfolio parent CSS */
+    /* .brand intentionally has no font-family — parent style.css handles it */
     .brand {
-      font-family: var(--font-ui);
-      font-weight: 700;
       font-size: 16px;
       color: var(--peach);
-      letter-spacing: -.2px;
     }
-    /* If parent style.css defines .brand-gradient, it wins. This is the fallback. */
     .brand:hover { color: var(--terra-light); }
     .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text2); font-family: var(--font-ui); }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text2); }
     .nav-links a:hover { color: var(--text); }
 
     /* ---- REVEAL ---- */
@@ -144,8 +140,11 @@
     .b3 { width: 280px; height: 280px; background: var(--sand2); bottom: 40px; left: 35%; opacity: .07; }
 
     /* ---- HERO ---- */
-    .project-hero { padding: 64px 0 56px; position: relative; }
-    .project-hero .container { position: relative; z-index: 1; }
+    .project-hero { padding: 64px 0 56px; position: relative; overflow: hidden; }
+    .project-hero .sa-container { position: relative; z-index: 1; }
+
+    /* Stats must stay within the container flow */
+    .stats { max-width: 100%; }
 
     .project-badge {
       display: inline-flex;
@@ -480,10 +479,10 @@
       padding: 24px;
     }
     .story-card:nth-child(2) { border-left-color: var(--terra-light); }
-    .story-card:nth-child(3) { border-left-color: #A8C49A; }
-    .story-card:nth-child(4) { border-left-color: var(--sand3); }
-    .story-card:nth-child(5) { border-left-color: var(--terra); }
-    .story-card:nth-child(6) { border-left-color: var(--terra-light); }
+    .story-card:nth-child(3) { border-left-color: var(--terra-dark); }
+    .story-card:nth-child(4) { border-left-color: var(--terra); }
+    .story-card:nth-child(5) { border-left-color: var(--terra-light); }
+    .story-card:nth-child(6) { border-left-color: var(--terra-dark); }
     .story-card .icon-wrap { width: 36px; height: 36px; border-radius: 9px; margin-bottom: 12px; }
     .story-card .icon-wrap svg { width: 18px; height: 18px; }
     .story-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 7px; color: var(--terra-light); text-transform: uppercase; letter-spacing: .4px; font-family: var(--font-ui); }
@@ -531,7 +530,7 @@
   </div>
 
   <header class="nav">
-    <div class="container nav-inner">
+    <div class="sa-container nav-inner">
       <!-- brand-gradient class keeps compatibility with parent style.css -->
       <a href="https://kunalkava.com" class="brand brand-gradient">Kunal Kava</a>
       <nav class="nav-links">
@@ -552,7 +551,7 @@
         <div class="blob b3"></div>
       </div>
 
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <div class="project-badge">Live Now</div>
         <!-- Logo file: copy Social-autopilot-logo.png (or .webp) from social-autopilot-landing repo into /assets/ in your portfolio repo -->
         <img src="/assets/Social-autopilot-logo.png" alt="Social Autopilot logo" class="project-logo" />
@@ -603,7 +602,7 @@
 
     <!-- HOW IT WORKS -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>How It Works</h2>
         <p class="kicker">A fully automated pipeline. The client fills a spreadsheet. Everything else happens behind the scenes.</p>
 
@@ -688,7 +687,7 @@
 
     <!-- CAPABILITIES -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>Capabilities</h2>
         <p class="kicker">Every edge case handled. Every failure caught. Designed to run unattended and self-report issues.</p>
 
@@ -749,7 +748,7 @@
 
     <!-- IMPACT -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>Impact</h2>
         <p class="kicker">Measured outcomes from live client deployments.</p>
         <div class="results-grid">
@@ -765,7 +764,7 @@
 
     <!-- WHO IT'S FOR -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>Who It's For</h2>
         <p class="kicker">Designed for anyone who posts regularly and values their time.</p>
 
@@ -802,7 +801,7 @@
 
     <!-- ROADMAP -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>Roadmap</h2>
         <p class="kicker">Two milestones already live. The next chapter is the full app.</p>
 
@@ -855,23 +854,23 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
               </div>
               <h4>AI-Assisted Content Creation</h4>
-              <p>Generate captions, suggest hashtags, and match your brand voice — in Hindi or English — with one click.</p>
+              <p>Have an image? Get a caption. Have an idea? Get a post. Have nothing? Start there. The AI fills the gaps so you show up consistently.</p>
             </div>
             <div class="teaser-feat">
               <div class="tf-icon">
                 <!-- Bar chart -->
                 <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
               </div>
-              <h4>Analytics That Matter</h4>
-              <p>See reach, engagement, and best posting times — presented simply, not buried in dashboards meant for enterprise teams.</p>
+              <h4>Analytics That Mean Something</h4>
+              <p>What's working, what isn't, what to post next. No vanity numbers, no spreadsheet exports. Just the signal that actually moves the business.</p>
             </div>
             <div class="teaser-feat">
               <div class="tf-icon">
                 <!-- Users / multi-brand -->
                 <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
-              <h4>Run Multiple Brands and Clients</h4>
-              <p>Agencies can manage all their clients from one login. Each brand gets its own workspace, calendar, and content settings.</p>
+              <h4>Run Multiple Brands or Clients</h4>
+              <p>Each brand gets its own workspace. Switch without losing your place. Invite collaborators, set permissions, never share passwords again.</p>
             </div>
           </div>
 
@@ -889,7 +888,7 @@
 
     <!-- THE STORY -->
     <section class="project-section">
-      <div class="container reveal">
+      <div class="sa-container reveal">
         <h2>The Story Behind This</h2>
         <p class="kicker">Why I built Social Autopilot — the problem, the thinking, and the journey.</p>
 
@@ -978,7 +977,7 @@
 
     <!-- CTA -->
     <section class="project-section" style="padding-bottom: 100px;">
-      <div class="container reveal" style="text-align: center;">
+      <div class="sa-container reveal" style="text-align: center;">
         <h2>Interested?</h2>
         <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
         <div class="cta">
