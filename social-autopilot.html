@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Social Autopilot — AI-Powered Social Media Automation | Kunal Kava</title>
   <meta name="description" content="An AI-powered zero-UI automation engine that transforms a Google Sheet into a social media command center." />
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Fonts: Fraunces + DM Sans (brand system) + Inter (portfolio match for nav) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Google gtag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z92JNNSW0P"></script>
@@ -17,472 +21,518 @@
   </script>
 
   <style>
-    /* ========================================
-       PROJECT PAGE — SOCIAL AUTOPILOT
-       Uses parent site vars + components
-    ======================================== */
+    /* =============================================
+       SOCIAL AUTOPILOT — PORTFOLIO PAGE v2
+       Design: social-autopilot.com brand system
+       Dark page, light teaser island
+    ============================================= */
+
+    :root {
+      --ink:        #1C1917;
+      --ink2:       #292524;
+      --ink3:       #3D3936;
+      --terra:      #C4614A;
+      --terra-dark: #9E4535;
+      --terra-light:#E8886F;
+      --peach:      #FFF0E6;
+      --sand:       #F5EDE4;
+      --sand2:      #EDE0D4;
+      --sand3:      #E0D3C8;
+      --text:       #F5EDE4;
+      --text2:      #C4B8AE;
+      --text3:      #8C7E77;
+      --line:       rgba(196,97,74,.18);
+      --radius:     14px;
+      --radius2:    20px;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body:    'DM Sans', -apple-system, sans-serif;
+      --font-ui:      'Inter', -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--terra-light); text-decoration: none; transition: color .15s; }
+    a:hover { color: var(--terra); }
+
+    /* ---- ANNOUNCEMENT BAR ---- */
+    #announce-bar {
+      background: var(--terra);
+      color: #fff;
+      text-align: center;
+      padding: 10px 48px 10px 24px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 500;
+      position: relative;
+      line-height: 1.5;
+    }
+    #announce-bar a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    #announce-bar a:hover { color: var(--peach); }
+    #announce-bar strong { font-weight: 700; }
+    .announce-close {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.7);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .announce-close:hover { color: #fff; }
+    #announce-bar.hidden { display: none; }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(28,25,23,.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 0.5px solid var(--line);
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    /* Brand name uses Inter to match portfolio parent CSS */
+    .brand {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--peach);
+      letter-spacing: -.2px;
+    }
+    /* If parent style.css defines .brand-gradient, it wins. This is the fallback. */
+    .brand:hover { color: var(--terra-light); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text2); font-family: var(--font-ui); }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ---- REVEAL ---- */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.show { opacity: 1; transform: none; }
+
+    /* ---- BLOBS ---- */
+    .blobs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .16; }
+    .b1 { width: 480px; height: 480px; background: var(--terra); top: -120px; left: -80px; }
+    .b2 { width: 360px; height: 360px; background: #E8886F; top: 60px; right: -60px; opacity: .09; }
+    .b3 { width: 280px; height: 280px; background: var(--sand2); bottom: 40px; left: 35%; opacity: .07; }
+
+    /* ---- HERO ---- */
+    .project-hero { padding: 64px 0 56px; position: relative; }
+    .project-hero .container { position: relative; z-index: 1; }
 
     .project-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 16px;
-      background: rgba(34, 211, 238, .08);
-      border: 1px solid rgba(34, 211, 238, .25);
+      padding: 7px 16px;
+      background: rgba(196,97,74,.12);
+      border: 1px solid rgba(196,97,74,.35);
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      color: var(--c1);
-      letter-spacing: 0.5px;
+      color: var(--terra-light);
+      letter-spacing: .8px;
+      text-transform: uppercase;
       margin-bottom: 28px;
-    }
-
-    /* Project hero */
-    .project-hero {
-      padding: 60px 0 50px;
-      position: relative;
-    }
-
-    .project-logo {
-      display: block;
-      width: 80px;
-      height: 80px;
-      border-radius: 18px;
-      object-fit: cover;
-      box-shadow: 
-        0 4px 12px rgba(0,0,0,.4),
-        0 12px 36px rgba(0,0,0,.25),
-        0 0 0 1px rgba(255,255,255,.08);
-      margin-bottom: 20px;
+      font-family: var(--font-ui);
     }
     .project-badge::before {
       content: '';
       width: 6px; height: 6px;
-      background: var(--c1);
+      background: var(--terra-light);
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: blink 2s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    .project-logo {
+      display: block;
+      width: 72px; height: 72px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(196,97,74,.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+      margin-bottom: 24px;
     }
 
     .project-title {
-      font-size: clamp(40px, 5.5vw, 64px);
-      font-weight: 900;
-      letter-spacing: -1.6px;
-      line-height: 1.05;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.5vw, 68px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.02;
+      margin-bottom: 18px;
+      color: var(--peach);
     }
+    .project-title span { color: var(--terra-light); }
 
-    .project-subtitle {
-      font-size: 20px;
-      color: rgba(233, 237, 246, .90);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+    .project-subtitle { font-size: 19px; font-weight: 500; color: var(--text2); margin-bottom: 10px; letter-spacing: -.2px; }
+    .project-tagline { font-size: 16px; color: var(--text2); max-width: 660px; line-height: 1.8; }
+    .project-tagline em { color: var(--peach); font-style: normal; font-weight: 600; }
 
-    .project-tagline {
-      font-size: 17px;
-      color: var(--muted);
-      max-width: 680px;
-      line-height: 1.75;
-    }
-
-    .project-tagline em {
-      color: var(--text);
-      font-style: normal;
-      font-weight: 600;
-    }
-
-    /* Platform logos */
-    .platforms {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 28px;
-    }
+    /* ---- PLATFORM ICONS ---- */
+    .platforms { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
     .platform-icon {
       width: 36px; height: 36px;
       border-radius: 10px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: rgba(245,237,228,.05);
+      border: 1px solid rgba(196,97,74,.2);
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
-      transition: all .15s ease;
+      transition: all .15s;
     }
-    .platform-icon:hover {
-      border-color: rgba(255,255,255,.25);
-      transform: translateY(-2px);
-    }
-    .platform-label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-    }
+    .platform-icon:hover { border-color: rgba(196,97,74,.5); transform: translateY(-2px); }
+    .platform-label { font-size: 12px; color: var(--text3); font-weight: 500; }
 
-    /* Zero UI callout */
+    /* ---- ZERO-UI CALLOUT ---- */
     .zero-ui {
       margin-top: 48px;
-      padding: 28px 32px;
-      background: linear-gradient(135deg, rgba(34,211,238,.06), rgba(167,139,250,.06));
-      border: 1px solid rgba(34,211,238,.15);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
+      padding: 26px 30px;
+      background: rgba(196,97,74,.07);
+      border: 1px solid rgba(196,97,74,.22);
+      border-radius: var(--radius2);
+      display: flex; align-items: flex-start; gap: 16px;
     }
-    .zero-ui-icon {
-      font-size: 28px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .zero-ui h3 {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: var(--c1);
-    }
-    .zero-ui p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-    .zero-ui p strong {
-      color: var(--text);
-    }
+    .zero-ui-icon { flex-shrink: 0; margin-top: 2px; }
+    .zero-ui h3 { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--terra-light); }
+    .zero-ui p { color: var(--text2); font-size: 14px; line-height: 1.75; }
+    .zero-ui p strong { color: var(--text); }
 
-    /* Gradient val — tight gradient visible even on single digits */
+    /* ---- STATS ---- */
+    .stats { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 40px; }
     .stat .val {
-      background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      background-size: 100% 100%;
-      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 800; letter-spacing: -1px;
+      color: var(--terra-light); display: block; line-height: 1;
     }
+    .stat .lab { font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: .6px; margin-top: 5px; font-family: var(--font-ui); }
 
-    /* Flow architecture */
+    /* ---- SHARED SECTION ---- */
+    .divider { border: none; border-top: 0.5px solid var(--line); margin: 0; }
+    .project-section { padding: 64px 0; }
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.5vw, 36px);
+      font-weight: 700; letter-spacing: -1px;
+      color: var(--peach); margin-bottom: 8px;
+    }
+    .kicker { font-size: 15px; color: var(--text3); margin-bottom: 0; max-width: 600px; }
+
+    /* ---- SVG ICON CONTAINERS ---- */
+    .icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: rgba(196,97,74,.10);
+      border: 1px solid rgba(196,97,74,.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 14px;
+    }
+    .icon-wrap svg { width: 22px; height: 22px; stroke: var(--terra-light); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* flow icons specifically */
+    .flow-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 13px;
+      background: rgba(196,97,74,.09);
+      border: 1px solid rgba(196,97,74,.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .flow-icon-wrap svg { width: 22px; height: 22px; stroke: var(--terra-light); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---- FLOW ---- */
     .flow-container {
       margin-top: 36px;
-      background: rgba(255,255,255,.035);
-      border: 1px solid var(--line);
+      background: rgba(245,237,228,.03);
+      border: 0.5px solid var(--line);
       border-radius: var(--radius2);
       padding: 36px;
-      box-shadow: var(--shadowSoft);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .flow-container::before {
       content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--terra), var(--terra-light), transparent);
     }
     .flow-steps {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 8px; flex-wrap: wrap;
     }
     .flow-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      min-width: 80px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      flex: 1; min-width: 72px;
     }
-    .flow-icon {
-      width: 48px; height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-    }
-    .flow-label {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-    .flow-arrow {
-      color: rgba(255,255,255,.2);
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-    @media (max-width: 768px) {
+    .flow-label { font-size: 11px; color: var(--text3); text-align: center; font-weight: 600; line-height: 1.4; font-family: var(--font-ui); }
+    .flow-arrow { color: rgba(196,97,74,.4); font-size: 18px; flex-shrink: 0; }
+    @media (max-width: 640px) {
       .flow-steps { flex-direction: column; }
       .flow-arrow { transform: rotate(90deg); }
     }
 
-    /* Problem / Solution cards */
-    .ps-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 36px;
-    }
-    @media (max-width: 768px) {
-      .ps-grid { grid-template-columns: 1fr; }
-    }
+    /* ---- PROBLEM / SOLUTION ---- */
+    .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+    @media (max-width: 640px) { .ps-grid { grid-template-columns: 1fr; } }
     .ps-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(245,237,228,.03);
+      border: 0.5px solid var(--line);
       border-radius: var(--radius2);
-      padding: 28px;
+      padding: 28px; position: relative; overflow: hidden;
+    }
+    .ps-card::before { content:''; position:absolute; top:0;left:0;right:0;height:2px; }
+    .ps-card.problem::before { background: linear-gradient(90deg,#d97b6c,transparent); }
+    .ps-card.solution::before { background: linear-gradient(90deg,var(--terra),transparent); }
+    .ps-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+    .ps-card.problem h3 { color: #E8886F; }
+    .ps-card.solution h3 { color: var(--terra-light); }
+    .ps-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .ps-list li { font-size: 14px; color: var(--text2); padding-left: 22px; position: relative; line-height: 1.6; }
+    .ps-card.problem .ps-list li::before { content:'✕'; position:absolute;left:0;top:1px;color:#E8886F;font-size:11px;font-weight:800; }
+    .ps-card.solution .ps-list li::before { content:'✓'; position:absolute;left:0;top:0;color:var(--terra-light);font-size:13px;font-weight:800; }
+
+    /* ---- FEATURE / TARGET CARDS ---- */
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 36px; }
+    @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card {
+      background: rgba(245,237,228,.03);
+      border: 0.5px solid var(--line);
+      border-radius: var(--radius2); padding: 26px;
+      transition: transform .15s, border-color .15s;
+    }
+    .feature-card:hover { transform: translateY(-2px); border-color: rgba(196,97,74,.3); }
+    .feature-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .feature-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+    /* ---- STATUS BADGES ---- */
+    .live-badge {
+      font-size: 10px;
+      background: rgba(100,190,120,.15);
+      color: #7dcea0;
+      border: 0.5px solid rgba(100,190,120,.3);
+      padding: 2px 9px; border-radius: 999px;
+      font-weight: 700; letter-spacing: .5px;
+      margin-left: 8px; vertical-align: middle;
+      font-family: var(--font-ui);
+    }
+    .soon-badge {
+      font-size: 10px;
+      background: rgba(196,97,74,.12);
+      color: var(--terra-light);
+      padding: 2px 9px; border-radius: 999px;
+      font-weight: 700; letter-spacing: .5px;
+      margin-left: 8px; vertical-align: middle;
+      font-family: var(--font-ui);
+    }
+
+    /* ---- RESULTS ---- */
+    .results-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 36px; }
+    @media (max-width: 640px) { .results-grid { grid-template-columns: repeat(2,1fr); } }
+    .result-card {
+      background: rgba(245,237,228,.03); border: 0.5px solid var(--line);
+      border-radius: var(--radius); padding: 24px; text-align: center;
+    }
+    .result-val { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -.8px; color: var(--terra-light); }
+    .result-card:nth-child(3) .result-val { color: #7dcea0; }
+    .result-lab { margin-top: 6px; color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; font-family: var(--font-ui); }
+
+    /* ---- TARGET CARDS ---- */
+    .target-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 36px; }
+    @media (max-width: 640px) { .target-grid { grid-template-columns: 1fr; } }
+    .target-card {
+      background: rgba(245,237,228,.03); border: 0.5px solid var(--line);
+      border-radius: var(--radius2); padding: 26px;
+    }
+    .target-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .target-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+    .target-card .icon-wrap { margin-bottom: 16px; }
+
+    /* ---- APP TEASER (LIGHT ISLAND) ---- */
+    .app-teaser-section {
+      margin-top: 36px;
+      background: var(--peach);
+      border-radius: 24px;
+      padding: 48px 44px;
       position: relative;
       overflow: hidden;
     }
-    .ps-card::before {
+    .app-teaser-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--terra-dark), var(--terra), var(--terra-light));
+    }
+    /* subtle paper-plane watermark */
+    .app-teaser-section::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
+      right: -20px; bottom: -20px;
+      width: 200px; height: 200px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4614A' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 2L11 13'/%3E%3Cpath d='M22 2L15 22 11 13 2 9l20-7z'/%3E%3C/svg%3E") center/contain no-repeat;
+      opacity: .07;
+      pointer-events: none;
     }
-    .ps-card.problem::before {
-      background: linear-gradient(90deg, #fb7185, transparent);
-    }
-    .ps-card.solution::before {
-      background: linear-gradient(90deg, var(--c1), transparent);
-    }
-    .ps-card h3 {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-    .ps-card.problem h3 { color: #fb7185; }
-    .ps-card.solution h3 { color: var(--c1); }
-    .ps-list {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .ps-list li {
-      font-size: 14px;
-      color: var(--muted);
-      padding-left: 22px;
-      position: relative;
-      line-height: 1.6;
-    }
-    .ps-card.problem .ps-list li::before {
-      content: '✕';
-      position: absolute;
-      left: 0; top: 1px;
-      color: #fb7185;
+    .app-teaser-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-ui);
       font-size: 11px;
-      font-weight: 800;
-    }
-    .ps-card.solution .ps-list li::before {
-      content: '✓';
-      position: absolute;
-      left: 0; top: 0;
-      color: var(--c1);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    /* Features grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 36px;
-    }
-    @media (max-width: 768px) {
-      .features-grid { grid-template-columns: 1fr; }
-    }
-    .feature-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius2);
-      padding: 28px;
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-    }
-    .feature-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-      border-color: rgba(255,255,255,.18);
-    }
-    .feature-card .f-icon {
-      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--terra);
       margin-bottom: 14px;
     }
-    .feature-card h3 {
+    .app-teaser-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--terra);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    .app-teaser-section h3 {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800; letter-spacing: -.8px;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .app-teaser-section .sub {
       font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .feature-card p {
-      font-size: 13px;
-      color: var(--muted);
+      color: var(--ink3);
       line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 32px;
     }
-
-    /* Coming soon badge */
-    .soon-badge {
-      font-size: 10px;
-      background: rgba(167,139,250,.12);
-      color: var(--c2);
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-
-    /* Results grid */
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-top: 36px;
-    }
-    @media (max-width: 768px) {
-      .results-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .result-card {
-      background: rgba(255,255,255,.035);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
-      text-align: center;
-    }
-    .result-val {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -.6px;
-      background: linear-gradient(90deg, var(--c1), var(--c2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    /* Zero missed posts — orange to stand out as a negative metric */
-    .result-card:nth-child(3) .result-val {
-      background: none;
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      color: var(--c3);
-    }
-    .result-lab {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    /* Target customer */
-    .target-grid {
+    /* feature trio inside teaser */
+    .teaser-features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 36px;
+      gap: 14px;
+      margin-bottom: 32px;
     }
-    @media (max-width: 768px) {
-      .target-grid { grid-template-columns: 1fr; }
+    @media (max-width: 640px) { .teaser-features { grid-template-columns: 1fr; } }
+    .teaser-feat {
+      background: rgba(28,25,23,.06);
+      border: 0.5px solid rgba(28,25,23,.12);
+      border-radius: 14px;
+      padding: 20px 18px;
     }
-    .target-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius2);
-      padding: 28px;
-    }
-    .target-card .t-icon {
-      font-size: 28px;
+    .teaser-feat .tf-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--terra);
+      display: flex; align-items: center; justify-content: center;
       margin-bottom: 12px;
     }
-    .target-card h3 {
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .target-card p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+    .teaser-feat .tf-icon svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .teaser-feat h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+    .teaser-feat p { font-size: 12px; color: var(--ink3); line-height: 1.6; }
 
-    /* Story section */
+    .teaser-footer { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .btn-terra-dark {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: var(--terra);
+      color: #fff; font-size: 14px; font-weight: 700;
+      border-radius: 10px; text-decoration: none;
+      transition: background .15s, transform .15s;
+      font-family: var(--font-ui);
+    }
+    .btn-terra-dark:hover { background: var(--terra-dark); color: #fff; transform: translateY(-1px); }
+    .teaser-footer-note { font-size: 13px; color: var(--ink3); }
+    .teaser-footer-note a { color: var(--terra); font-weight: 600; }
+
+    /* ---- STORY ---- */
+    .story-cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 36px; margin-bottom: 28px; }
+    @media (max-width: 768px) { .story-cards-grid { grid-template-columns: 1fr; } }
+    .story-card {
+      background: rgba(245,237,228,.03); border: 0.5px solid var(--line);
+      border-radius: 6px 20px 20px 6px;
+      border-left: 2px solid var(--terra);
+      padding: 24px;
+    }
+    .story-card:nth-child(2) { border-left-color: var(--terra-light); }
+    .story-card:nth-child(3) { border-left-color: #A8C49A; }
+    .story-card:nth-child(4) { border-left-color: var(--sand3); }
+    .story-card:nth-child(5) { border-left-color: var(--terra); }
+    .story-card:nth-child(6) { border-left-color: var(--terra-light); }
+    .story-card .icon-wrap { width: 36px; height: 36px; border-radius: 9px; margin-bottom: 12px; }
+    .story-card .icon-wrap svg { width: 18px; height: 18px; }
+    .story-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 7px; color: var(--terra-light); text-transform: uppercase; letter-spacing: .4px; font-family: var(--font-ui); }
+    .story-card p { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
     .story-block {
       margin-top: 36px;
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius2);
-      padding: 36px;
+      background: rgba(245,237,228,.03); border: 0.5px solid var(--line);
+      border-radius: var(--radius2); padding: 36px;
     }
-    .story-block h3 {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-    .story-block p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
+    .story-block h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--peach); }
+    .story-block p { color: var(--text2); font-size: 15px; line-height: 1.85; margin-bottom: 16px; }
     .story-block p:last-child { margin-bottom: 0; }
-    .story-block p strong {
-      color: var(--text);
-    }
+    .story-block p strong { color: var(--text); }
 
-    /* Tech stack */
-    .tech-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 28px;
-    }
+    /* ---- CTA ---- */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all .15s; font-family: var(--font-ui); }
+    .btn.primary { background: var(--terra); color: #fff; }
+    .btn.primary:hover { background: var(--terra-dark); color: #fff; }
+    .btn.outline { background: transparent; color: var(--text2); border: 1px solid rgba(245,237,228,.15); }
+    .btn.outline:hover { border-color: rgba(245,237,228,.3); color: var(--text); }
+    .cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-contact { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .cta-contact a { color: var(--terra-light); font-weight: 700; font-size: 14px; }
+    .cta-contact a:hover { color: var(--terra); }
+    .cta-contact .email-label { color: var(--text3); font-size: 13px; font-weight: 600; }
 
-    /* Section spacing override */
-    .project-section {
-      padding: 60px 0;
-    }
+    /* ---- FOOTER ---- */
+    .footer { text-align: center; padding: 32px 24px; font-size: 13px; color: var(--text3); border-top: 0.5px solid var(--line); }
 
-    /* CTA contact links */
-    .cta-contact {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-    .cta-contact a {
-      color: var(--c1);
-      font-weight: 700;
-      font-size: 14px;
-      transition: color .15s ease;
-    }
-    .cta-contact a:hover {
-      color: var(--c2);
-    }
-    .cta-contact .email-label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
+    @media (max-width: 480px) {
+      .stats { gap: 24px; }
+      .stat .val { font-size: 28px; }
+      .app-teaser-section { padding: 32px 24px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ANNOUNCEMENT BAR -->
+  <div id="announce-bar" role="banner">
+    <strong>Something bigger is coming.</strong> Social Autopilot is becoming a full-fledged web app for Indian businesses and agencies.
+    <a href="https://social-autopilot.com" target="_blank" rel="noopener">Join the waitlist →</a>
+    <button class="announce-close" onclick="document.getElementById('announce-bar').classList.add('hidden')" aria-label="Dismiss">&#x2715;</button>
+  </div>
+
   <header class="nav">
     <div class="container nav-inner">
+      <!-- brand-gradient class keeps compatibility with parent style.css -->
       <a href="https://kunalkava.com" class="brand brand-gradient">Kunal Kava</a>
       <nav class="nav-links">
         <a href="/">Home</a>
@@ -494,7 +544,7 @@
 
   <main>
 
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="project-hero">
       <div class="blobs" aria-hidden="true">
         <div class="blob b1"></div>
@@ -504,8 +554,9 @@
 
       <div class="container reveal">
         <div class="project-badge">Live Now</div>
+        <!-- Logo file: copy Social-autopilot-logo.png (or .webp) from social-autopilot-landing repo into /assets/ in your portfolio repo -->
         <img src="/assets/Social-autopilot-logo.png" alt="Social Autopilot logo" class="project-logo" />
-        <h1 class="project-title">Social Autopilot</h1>
+        <h1 class="project-title">Social <span>Autopilot</span></h1>
         <p class="project-subtitle">Zero-UI Social Media Automation Engine</p>
         <p class="project-tagline">
           An AI-powered automation system that transforms a <em>simple Google Sheet</em> into a fully automated social media command center — scheduling and publishing posts across multiple platforms with <em>zero manual intervention</em>.
@@ -513,36 +564,25 @@
 
         <div class="platforms">
           <div class="platform-icon" title="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="ig_grad" cx="30%" cy="107%" r="150%">
-                  <stop offset="0%" stop-color="#fdf497"/>
-                  <stop offset="5%" stop-color="#fdf497"/>
-                  <stop offset="45%" stop-color="#fd5949"/>
-                  <stop offset="60%" stop-color="#d6249f"/>
-                  <stop offset="90%" stop-color="#285AEB"/>
-                </radialGradient>
-              </defs>
-              <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#ig_grad)"/>
-              <rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
-              <circle cx="12" cy="12" r="3.5" stroke="white" stroke-width="1.5" fill="none"/>
-              <circle cx="17" cy="7" r="1" fill="white"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><defs><radialGradient id="ig_grad" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#ig_grad)"/><rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="white" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3.5" stroke="white" stroke-width="1.5" fill="none"/><circle cx="17" cy="7" r="1" fill="white"/></svg>
           </div>
           <div class="platform-icon" title="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
           </div>
           <div class="platform-icon" title="Threads">
-            <svg width="18" height="18" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-              <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.672-1.14-23.77 1.371-39.07 15.283-38.085 34.65.493 9.744 5.333 18.123 13.623 23.6 7.022 4.64 16.064 6.959 25.456 6.53 12.39-.566 22.1-5.263 28.863-13.954 5.135-6.601 8.401-15.19 9.85-25.882 5.904 3.565 10.283 8.252 12.704 13.891 4.118 9.588 4.359 25.327-7.384 37.064-10.326 10.32-22.741 14.782-41.456 14.93C81.1 172.645 63.78 166.474 51.32 154.03 39.955 142.679 33.86 126.988 33.654 107.31c.206-19.679 6.301-35.37 17.666-46.721C63.78 48.146 81.1 41.975 103.045 41.783c22.08.194 39.591 6.414 52.058 18.497 6.127 5.943 10.8 13.014 14.044 21.089l15.512-6.517c-3.89-9.68-9.612-18.177-17.156-25.392C152.367 34.776 131.577 27.266 103.102 27.05h-.113C74.633 27.266 54.014 34.72 39.134 49.392 22.67 65.633 14.148 87.876 13.9 107.246v.127c.248 19.37 8.77 41.613 25.234 57.854 14.88 14.672 35.499 22.126 63.855 22.34h.113c22.7-.163 39.058-6.212 52.872-19.558 17.786-17.186 17.147-39.2 11.451-52.476-4.084-9.522-11.877-17.228-22.887-22.545zm-39.839 51.928c-10.393.473-21.19-4.074-21.685-13.841-.365-7.207 5.088-15.246 24.126-16.343 2.114-.122 4.178-.183 6.2-.183 6.278 0 12.159.605 17.434 1.763-1.986 22.237-14.48 28.132-26.075 28.604z" fill="white"/>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 192 192"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.672-1.14-23.77 1.371-39.07 15.283-38.085 34.65.493 9.744 5.333 18.123 13.623 23.6 7.022 4.64 16.064 6.959 25.456 6.53 12.39-.566 22.1-5.263 28.863-13.954 5.135-6.601 8.401-15.19 9.85-25.882 5.904 3.565 10.283 8.252 12.704 13.891 4.118 9.588 4.359 25.327-7.384 37.064-10.326 10.32-22.741 14.782-41.456 14.93C81.1 172.645 63.78 166.474 51.32 154.03 39.955 142.679 33.86 126.988 33.654 107.31c.206-19.679 6.301-35.37 17.666-46.721C63.78 48.146 81.1 41.975 103.045 41.783c22.08.194 39.591 6.414 52.058 18.497 6.127 5.943 10.8 13.014 14.044 21.089l15.512-6.517c-3.89-9.68-9.612-18.177-17.156-25.392C152.367 34.776 131.577 27.266 103.102 27.05h-.113C74.633 27.266 54.014 34.72 39.134 49.392 22.67 65.633 14.148 87.876 13.9 107.246v.127c.248 19.37 8.77 41.613 25.234 57.854 14.88 14.672 35.499 22.126 63.855 22.34h.113c22.7-.163 39.058-6.212 52.872-19.558 17.786-17.186 17.147-39.2 11.451-52.476-4.084-9.522-11.877-17.228-22.887-22.545zm-39.839 51.928c-10.393.473-21.19-4.074-21.685-13.841-.365-7.207 5.088-15.246 24.126-16.343 2.114-.122 4.178-.183 6.2-.183 6.278 0 12.159.605 17.434 1.763-1.986 22.237-14.48 28.132-26.075 28.604z" fill="white"/></svg>
           </div>
-          <span class="platform-label">Currently live on Instagram, Facebook & Threads</span>
+          <span class="platform-label">Currently live on Instagram, Facebook &amp; Threads</span>
         </div>
 
         <!-- Zero UI callout -->
         <div class="zero-ui">
-          <span class="zero-ui-icon">🎯</span>
+          <div class="zero-ui-icon">
+            <!-- Target / crosshair icon -->
+            <div class="icon-wrap" style="margin-bottom:0">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+            </div>
+          </div>
           <div>
             <h3>Zero-UI Philosophy</h3>
             <p>The end user never touches a dashboard, never learns a new tool, never logs into anything. They fill a <strong>Google Sheet</strong> they already know, upload images to a <strong>Cloud Drive folder</strong> they already use, and receive a <strong>Telegram ping</strong> when posts go live. The entire automation layer is invisible.</p>
@@ -550,30 +590,18 @@
         </div>
 
         <!-- Stats -->
-        <div class="stats" style="margin-top: 40px;">
-          <div class="stat">
-            <div class="val">5</div>
-            <div class="lab">Active Clients</div>
-          </div>
-          <div class="stat">
-            <div class="val">450+</div>
-            <div class="lab">Posts Automated</div>
-          </div>
-          <div class="stat">
-            <div class="val">95%</div>
-            <div class="lab">Time Saved</div>
-          </div>
-          <div class="stat">
-            <div class="val">₹0</div>
-            <div class="lab">Infrastructure Cost</div>
-          </div>
+        <div class="stats">
+          <div class="stat"><span class="val">5</span><div class="lab">Active Clients</div></div>
+          <div class="stat"><span class="val">450+</span><div class="lab">Posts Automated</div></div>
+          <div class="stat"><span class="val">95%</span><div class="lab">Time Saved</div></div>
+          <div class="stat"><span class="val">&#8377;0</span><div class="lab">Infrastructure Cost</div></div>
         </div>
       </div>
     </section>
 
     <hr class="divider" />
 
-    <!-- How It Works -->
+    <!-- HOW IT WORKS -->
     <section class="project-section">
       <div class="container reveal">
         <h2>How It Works</h2>
@@ -582,41 +610,58 @@
         <div class="flow-container">
           <div class="flow-steps">
             <div class="flow-step">
-              <div class="flow-icon">📊</div>
+              <div class="flow-icon-wrap">
+                <!-- Table/spreadsheet icon -->
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+              </div>
               <span class="flow-label">Google Sheet<br>Content Calendar</span>
             </div>
-            <span class="flow-arrow">→</span>
+            <span class="flow-arrow">&#8594;</span>
             <div class="flow-step">
-              <div class="flow-icon">⚡</div>
+              <div class="flow-icon-wrap">
+                <!-- Zap/bolt icon -->
+                <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
               <span class="flow-label">n8n Engine<br>Orchestration</span>
             </div>
-            <span class="flow-arrow">→</span>
+            <span class="flow-arrow">&#8594;</span>
             <div class="flow-step">
-              <div class="flow-icon">📁</div>
+              <div class="flow-icon-wrap">
+                <!-- Folder icon -->
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              </div>
               <span class="flow-label">Cloud Drive<br>Image Fetch</span>
             </div>
-            <span class="flow-arrow">→</span>
+            <span class="flow-arrow">&#8594;</span>
             <div class="flow-step">
-              <div class="flow-icon">🔗</div>
+              <div class="flow-icon-wrap">
+                <!-- Link icon -->
+                <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
               <span class="flow-label">Meta Graph API<br>Scheduling</span>
             </div>
-            <span class="flow-arrow">→</span>
+            <span class="flow-arrow">&#8594;</span>
             <div class="flow-step">
-              <div class="flow-icon">📱</div>
+              <div class="flow-icon-wrap">
+                <!-- Send/paper-plane icon -->
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </div>
               <span class="flow-label">Social Media<br>Auto-publish</span>
             </div>
-            <span class="flow-arrow">→</span>
+            <span class="flow-arrow">&#8594;</span>
             <div class="flow-step">
-              <div class="flow-icon">🔔</div>
+              <div class="flow-icon-wrap">
+                <!-- Bell icon -->
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
               <span class="flow-label">Telegram<br>Notification</span>
             </div>
           </div>
         </div>
 
-        <!-- Problem / Solution -->
-        <div class="ps-grid" style="margin-top: 36px;">
+        <div class="ps-grid">
           <div class="ps-card problem">
-            <h3>✕ Manual Posting</h3>
+            <h3>&#x2715; Manual Posting</h3>
             <ul class="ps-list">
               <li>15-20 minutes per post across 3 platforms</li>
               <li>Missed schedules due to human error</li>
@@ -626,13 +671,13 @@
             </ul>
           </div>
           <div class="ps-card solution">
-            <h3>✓ With Social Autopilot</h3>
+            <h3>&#x2713; With Social Autopilot</h3>
             <ul class="ps-list">
               <li>Fill a Google Sheet — posts go live automatically</li>
               <li>Zero missed posts with dual triggers + backup</li>
               <li>One person manages 20+ accounts effortlessly</li>
               <li>Real-time Telegram alerts on every post</li>
-              <li>Single caption → published across all platforms</li>
+              <li>Single caption published across all platforms</li>
             </ul>
           </div>
         </div>
@@ -641,7 +686,7 @@
 
     <hr class="divider" />
 
-    <!-- Capabilities -->
+    <!-- CAPABILITIES -->
     <section class="project-section">
       <div class="container reveal">
         <h2>Capabilities</h2>
@@ -649,32 +694,50 @@
 
         <div class="features-grid">
           <div class="feature-card">
-            <div class="f-icon">📅</div>
+            <div class="icon-wrap">
+              <!-- Calendar icon -->
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
             <h3>Smart Scheduling</h3>
             <p>Fully configurable triggers — schedule posts at midnight, every hour, every 5 minutes, or push a manual trigger to publish instantly. Dual daily triggers with backup ensure nothing is missed, and on-demand mode lets you go live the moment you're ready.</p>
           </div>
           <div class="feature-card">
-            <div class="f-icon">🖼️</div>
+            <div class="icon-wrap">
+              <!-- Image/gallery icon -->
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
             <h3>Carousel Support</h3>
             <p>Up to 10 images per post. The system searches Cloud Drive, builds public URLs, and assembles carousel assets automatically.</p>
           </div>
           <div class="feature-card">
-            <div class="f-icon">🔄</div>
+            <div class="icon-wrap">
+              <!-- Activity/status icon -->
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
             <h3>Status Tracking</h3>
             <p>Every post's journey is tracked — from Ready to Queued to Posted. Failed posts include the exact error for quick debugging.</p>
           </div>
           <div class="feature-card">
-            <div class="f-icon">🛡️</div>
+            <div class="icon-wrap">
+              <!-- Shield icon -->
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
             <h3>Error Recovery</h3>
             <p>Validation errors, missing files, API failures — each scenario routes to specific handlers that update the Sheet and notify via Telegram.</p>
           </div>
           <div class="feature-card">
-            <div class="f-icon">⚡</div>
+            <div class="icon-wrap">
+              <!-- Zap icon -->
+              <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
             <h3>Meta Graph API</h3>
             <p>Leverages the Meta Graph API for reliable API communication — supporting custom scheduling, metadata, and platform configs.</p>
           </div>
           <div class="feature-card">
-            <div class="f-icon">🔔</div>
+            <div class="icon-wrap">
+              <!-- Bell icon -->
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
             <h3>Instant Alerts</h3>
             <p>Real-time Telegram notifications on success or failure — caption preview, scheduled time, image count, and error details.</p>
           </div>
@@ -684,36 +747,23 @@
 
     <hr class="divider" />
 
-    <!-- Results -->
+    <!-- IMPACT -->
     <section class="project-section">
       <div class="container reveal">
         <h2>Impact</h2>
         <p class="kicker">Measured outcomes from live client deployments.</p>
-
         <div class="results-grid">
-          <div class="result-card">
-            <div class="result-val">95%</div>
-            <div class="result-lab">Time Saved on Posting</div>
-          </div>
-          <div class="result-card">
-            <div class="result-val">3x</div>
-            <div class="result-lab">Accounts per Person</div>
-          </div>
-          <div class="result-card">
-            <div class="result-val">0</div>
-            <div class="result-lab">Missed Scheduled Posts</div>
-          </div>
-          <div class="result-card">
-            <div class="result-val">&lt;2min</div>
-            <div class="result-lab">Setup per Post</div>
-          </div>
+          <div class="result-card"><div class="result-val">95%</div><div class="result-lab">Time Saved on Posting</div></div>
+          <div class="result-card"><div class="result-val">3x</div><div class="result-lab">Accounts per Person</div></div>
+          <div class="result-card"><div class="result-val">0</div><div class="result-lab">Missed Scheduled Posts</div></div>
+          <div class="result-card"><div class="result-val">&lt;2min</div><div class="result-lab">Setup per Post</div></div>
         </div>
       </div>
     </section>
 
     <hr class="divider" />
 
-    <!-- Target Customers -->
+    <!-- WHO IT'S FOR -->
     <section class="project-section">
       <div class="container reveal">
         <h2>Who It's For</h2>
@@ -721,18 +771,27 @@
 
         <div class="target-grid">
           <div class="target-card">
-            <div class="t-icon">🏢</div>
+            <div class="icon-wrap">
+              <!-- Building icon -->
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
             <h3>Digital Marketing Agencies</h3>
-            <p>Managing 10-20 client accounts? Your team currently handles 5-8 accounts per person. With Autopilot, that same person handles 20+ — same salary, 3x output.</p>
+            <p>Managing 10-20 client accounts? Your team currently handles 5-8 accounts per person. With Autopilot, that same person handles 20+, same salary, 3x output.</p>
           </div>
           <div class="target-card">
-            <div class="t-icon">🛍️</div>
-            <h3>Small & Medium Businesses</h3>
+            <div class="icon-wrap">
+              <!-- Shopping bag icon -->
+              <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <h3>Small &amp; Medium Businesses</h3>
             <p>Restaurant owners, gym owners, boutiques — they want to post consistently but don't want to learn Buffer or Hootsuite. They fill a spreadsheet, we handle the rest.</p>
           </div>
           <div class="target-card">
-            <div class="t-icon">📸</div>
-            <h3>Content Creators & Influencers</h3>
+            <div class="icon-wrap">
+              <!-- Camera icon -->
+              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <h3>Content Creators &amp; Influencers</h3>
             <p>Posting 3-10 times daily across platforms is exhausting. Autopilot eliminates the repetitive scheduling work so creators can focus on creating.</p>
           </div>
         </div>
@@ -741,27 +800,86 @@
 
     <hr class="divider" />
 
-    <!-- Coming Soon -->
+    <!-- ROADMAP -->
     <section class="project-section">
       <div class="container reveal">
         <h2>Roadmap</h2>
-        <p class="kicker">Actively building the next wave of capabilities.</p>
+        <p class="kicker">Two milestones already live. The next chapter is the full app.</p>
 
         <div class="features-grid">
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🤖</div>
-            <h3>AI Captions <span class="soon-badge">COMING SOON</span></h3>
+          <!-- LIVE: AI Captions -->
+          <div class="feature-card" style="border-color: rgba(125,206,160,.25);">
+            <div class="icon-wrap" style="background:rgba(125,206,160,.12);border-color:rgba(125,206,160,.3)">
+              <svg viewBox="0 0 24 24" style="stroke:#7dcea0">
+                <!-- Sparkle / AI icon -->
+                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+              </svg>
+            </div>
+            <h3>AI Captions <span class="live-badge">LIVE</span></h3>
             <p>Feed it a topic or keywords, and an LLM generates platform-optimized captions with hashtags — tailored to brand voice and audience.</p>
           </div>
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🎬</div>
-            <h3>Reels & Stories <span class="soon-badge">COMING SOON</span></h3>
+          <!-- LIVE: Reels & Stories -->
+          <div class="feature-card" style="border-color: rgba(125,206,160,.25);">
+            <div class="icon-wrap" style="background:rgba(125,206,160,.12);border-color:rgba(125,206,160,.3)">
+              <svg viewBox="0 0 24 24" style="stroke:#7dcea0">
+                <!-- Film/video icon -->
+                <rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/>
+              </svg>
+            </div>
+            <h3>Reels &amp; Stories <span class="live-badge">LIVE</span></h3>
             <p>Full support for Instagram Reels and Stories — upload videos to Drive, set post type in the Sheet, and the engine handles format-specific publishing.</p>
           </div>
-          <div class="feature-card" style="border-style: dashed; opacity: 0.85;">
-            <div class="f-icon">🌐</div>
-            <h3>X, LinkedIn & YouTube <span class="soon-badge">COMING SOON</span></h3>
+          <!-- COMING SOON: Other platforms -->
+          <div class="feature-card" style="border-style: dashed; opacity: 0.8;">
+            <div class="icon-wrap">
+              <!-- Globe icon -->
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3>X, LinkedIn &amp; YouTube <span class="soon-badge">COMING SOON</span></h3>
             <p>Expanding beyond Meta — post to X (Twitter), LinkedIn, and YouTube Shorts from the same Google Sheet. One row, six platforms.</p>
+          </div>
+        </div>
+
+        <!-- APP TEASER — LIGHT ISLAND -->
+        <div class="app-teaser-section">
+          <div class="app-teaser-eyebrow">Full SaaS Web App — In the Making</div>
+          <h3>The spreadsheet was the proof.<br>The app is the product.</h3>
+          <p class="sub">
+            The n8n automation above proved people don't want to think about posting. Now we're building Social Autopilot as a proper web app — purpose-built for Indian SMBs and agencies. Same zero-effort promise, with a real dashboard, AI-powered content, and multi-client management built in.
+          </p>
+
+          <div class="teaser-features">
+            <div class="teaser-feat">
+              <div class="tf-icon">
+                <!-- Sparkle / AI -->
+                <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              </div>
+              <h4>AI-Assisted Content Creation</h4>
+              <p>Generate captions, suggest hashtags, and match your brand voice — in Hindi or English — with one click.</p>
+            </div>
+            <div class="teaser-feat">
+              <div class="tf-icon">
+                <!-- Bar chart -->
+                <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+              </div>
+              <h4>Analytics That Matter</h4>
+              <p>See reach, engagement, and best posting times — presented simply, not buried in dashboards meant for enterprise teams.</p>
+            </div>
+            <div class="teaser-feat">
+              <div class="tf-icon">
+                <!-- Users / multi-brand -->
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h4>Run Multiple Brands and Clients</h4>
+              <p>Agencies can manage all their clients from one login. Each brand gets its own workspace, calendar, and content settings.</p>
+            </div>
+          </div>
+
+          <div class="teaser-footer">
+            <a href="https://social-autopilot.com" target="_blank" rel="noopener" class="btn-terra-dark">
+              Register your interest &#8594;
+            </a>
+            <span class="teaser-footer-note">Free during beta &middot; INR billing &middot; <a href="https://social-autopilot.com" target="_blank" rel="noopener">social-autopilot.com</a></span>
           </div>
         </div>
       </div>
@@ -769,40 +887,58 @@
 
     <hr class="divider" />
 
-    <!-- The Story Behind It -->
+    <!-- THE STORY -->
     <section class="project-section">
       <div class="container reveal">
         <h2>The Story Behind This</h2>
         <p class="kicker">Why I built Social Autopilot — the problem, the thinking, and the journey.</p>
 
-        <div class="features-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 36px; margin-bottom: 28px;">
-          <div class="feature-card" style="border-left: 2px solid var(--c1); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">👀</div>
+        <div class="story-cards-grid">
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Eye icon -->
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
             <h3>Observation</h3>
             <p>Small businesses miss peak posting windows because they're busy running their business.</p>
           </div>
-          <div class="feature-card" style="border-left: 2px solid var(--c2); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">🔍</div>
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Search icon -->
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
             <h3>Research</h3>
             <p>Explored existing tools — Buffer, Hootsuite, Later, Sprout Social — and found them overbuilt and overpriced for SMBs.</p>
           </div>
-          <div class="feature-card" style="border-left: 2px solid var(--c3); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">💡</div>
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Lightbulb icon -->
+              <svg viewBox="0 0 24 24"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+            </div>
             <h3>Insight</h3>
             <p>"What if the user didn't have to learn anything at all?" — the zero-UI thesis.</p>
           </div>
-          <div class="feature-card" style="border-left: 2px solid var(--c4); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">🎯</div>
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Sliders / design icon -->
+              <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            </div>
             <h3>Design Philosophy</h3>
             <p>Everyone knows spreadsheets. Make that the interface. Hide everything else.</p>
           </div>
-          <div class="feature-card" style="border-left: 2px solid var(--c1); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">✅</div>
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Check circle icon -->
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
             <h3>Validation</h3>
             <p>Built it, tested it, offered it. Clients confirmed the thesis — 5 paying users in the first month.</p>
           </div>
-          <div class="feature-card" style="border-left: 2px solid var(--c2); border-radius: 8px 26px 26px 8px;">
-            <div class="f-icon">🎤</div>
+          <div class="story-card">
+            <div class="icon-wrap">
+              <!-- Mic / quote icon -->
+              <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </div>
             <h3>The Punchline</h3>
             <p>"People don't want a better scheduling tool. They want to not think about scheduling at all."</p>
           </div>
@@ -817,7 +953,7 @@
             The obvious answer is scheduling tools. So I researched what's out there — Buffer, Hootsuite, Later, Sprout Social, Loomly, Planoly. Dozens of options. And that's where the real problem became clear.
           </p>
           <p>
-            These tools are <strong>built for marketers, not business owners</strong>. They come loaded with analytics dashboards, content calendars, team collaboration features, approval workflows, audience insights — powerful stuff, but overwhelming for someone who just wants three posts to go out this week. The pricing reflects that too. ₹1,500-8,000/month for features a small business will never touch. And every one of them requires learning a new interface, creating yet another account, and building yet another habit.
+            These tools are <strong>built for marketers, not business owners</strong>. They come loaded with analytics dashboards, content calendars, team collaboration features, approval workflows, audience insights — powerful stuff, but overwhelming for someone who just wants three posts to go out this week. The pricing reflects that too. &#8377;1,500-8,000/month for features a small business will never touch. And every one of them requires learning a new interface, creating yet another account, and building yet another habit.
           </p>
           <p>
             That's when the core question hit me: <strong>what if the user didn't have to learn anything at all?</strong>
@@ -832,7 +968,7 @@
             I built it, tested it on my own accounts for weeks, ironed out every edge case — missing files, API failures, timezone mismatches, carousel image ordering — and then offered it to small businesses. The response validated the thesis: <strong>people don't want a better scheduling tool. They want to not think about scheduling at all.</strong>
           </p>
           <p>
-            Today, 5 clients use Social Autopilot at ₹1,000/month each. And that's just the beginning.
+            Today, 5 clients use Social Autopilot at &#8377;1,000/month each. And that's just the beginning.
           </p>
         </div>
       </div>
@@ -846,7 +982,7 @@
         <h2>Interested?</h2>
         <p class="kicker" style="margin: 0 auto 28px;">Whether you're a business looking to automate your social media, or an investor or collaborator excited about what automation can do — let's talk.</p>
         <div class="cta">
-          <a class="btn primary" href="mailto:hi&#64;kunalkava.com">Get In Touch →</a>
+          <a class="btn primary" href="mailto:hi&#64;kunalkava.com">Get In Touch &#8594;</a>
           <a class="btn outline" href="/">View Full Portfolio</a>
         </div>
         <div class="cta-contact">
@@ -857,7 +993,7 @@
     </section>
 
     <footer class="footer">
-      © <span id="year"></span> Kunal Kava · Made with Love and Vibe Code
+      &copy; <span id="year"></span> Kunal Kava &middot; Made with Love and Vibe Code
     </footer>
   </main>
 
