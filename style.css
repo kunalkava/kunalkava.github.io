@@ -119,7 +119,7 @@ a{color:inherit; text-decoration:none}
   line-height:1.02;
   letter-spacing:-1.6px;
   font-weight:900;
-  background: linear-gradient(90deg,var(--c1),var(--c2),var(--c3));
+  background: linear-gradient(90deg,#f5f6f8,#b9bfc9);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -419,10 +419,10 @@ a{color:inherit; text-decoration:none}
   transform: translateY(0);
 }
 .brand-gradient{
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  color: var(--text);
+  background: linear-gradient(90deg,#f5f6f8,#b9bfc9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .contact a.link .label{
