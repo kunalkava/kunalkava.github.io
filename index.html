@@ -602,34 +602,14 @@
     </section>
 
     <footer class="footer">
-      © <span id="year"></span> Kunal Kava · Made with Love and Vibe Code
+      © <span id="year"></span> Kunal Kava
     </footer>
 
 
-      <a href="#ai-projects" class="announce-pill" id="announcePill">
-        <span class="announce-dot"></span>
-        <span class="announce-text">🚀 Just shipped my first product — <span>it's live!</span></span>
-        <span class="announce-arrow">↓</span>
-      </a>
 
     
   </main>
 
-      <script>
-        // Hide announcement pill once user scrolls past the AI projects section
-        var pill = document.getElementById('announcePill');
-        var aiSection = document.getElementById('ai-projects');
-        if (pill && aiSection) {
-          window.addEventListener('scroll', function() {
-            var rect = aiSection.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.5) {
-              pill.classList.add('hidden');
-            } else {
-              pill.classList.remove('hidden');
-            }
-          });
-        }
-      </script>
 
   
   <script>
